@@ -1,0 +1,149 @@
+﻿@using DiagoDICOM.Common;
+@using DiagoDICOM.Models;
+@model IEnumerable<Destination>
+@{
+	ViewData["Title"] = "Destinations";
+}
+<script>
+	$(document).ready(function () {
+		$('.multilinks > li > a').removeClass('active');
+		$('.multilinks > li > a.tab2').addClass('active');
+
+		$('#tblDestinations').DataTable({
+			//"bSearchable":false,
+			"bSort":false,
+			"bLengthChange": false,
+			language: {
+				search: "_INPUT_",
+				searchPlaceholder: "Search..."
+			}
+		});
+
+		var dataTable = $('#tblDestinations').dataTable();
+		$("#searchbox").keyup(function () {
+			dataTable.fnFilter(this.value);
+		});
+
+
+	});
+	function Delete(e) {
+		$.ajax({
+			type: "POST",
+			url: "@Url.Action("DeleteDestination","Home")",
+			async: false,
+			data: { "id": $(e).attr("data-Id") },
+			success: function () {
+				$.notify({
+					message: "Deleted Successfully"
+				    }, {
+						type:"danger"
+					});
+				$(e).closest('tr').remove();
+			}
+		})
+	}
+
+	var dataTable = $('#tblCases').dataTable();
+	$("#searchbox").keyup(function () {
+		dataTable.fnFilter(this.value);
+	});
+
+	function AddDestination(e) {
+		$.get('@Url.Action("AddEditDestination","Home")', { }, function (html) {
+			var div = $(html);
+			$.showDialog("Add Destination", div, { backdrop: 'static' }, function () {
+			}, function () {
+			});
+		});
+	}
+
+	function EditDestination(e) {
+		$.get('@Url.Action("AddEditDestination","Home")', { id: parseInt($(e).data('id')) }, function (html) {
+			var div = $(html);
+			$.showDialog("Edit Destination", div, { backdrop: 'static' }, function () {
+			}, function () {
+			});
+		});
+	}
+</script>
+<style>
+	table.dataTable {
+		border-collapse: collapse !important;
+	}
+
+		table.dataTable tbody td {
+			word-break: break-word;
+			vertical-align: top;
+		}
+	.row {
+	  margin:auto !important;
+	}
+	.modal-content {
+	  width:720px;
+	}
+	.modal-dialog {
+	  margin-right:40%;
+	}
+</style>
+<div>
+	<input type="text" class="form-control" style="width:20%;height:10%" placeholder="Search" id="searchbox">
+</div>
+<div align="right">
+	<button onclick="AddDestination(this)"  class="btn btn-primary"><i class="fa fa-plus"></i> Add</button>
+</div>
+
+<div class="table-responsive text-nowrap">
+	<table id="tblDestinations" class="table table-bordered table-hover" style="width:100%">
+		<thead>
+			<tr>
+				<th>Destination Id</th>
+				<th>Destination Name</th>
+				<th>Identification</th>
+				<th>Forward DICOM Studies To</th>
+				<th>Final Destination Details</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (Model.Count() > 0)
+			{
+				foreach (var item in Model)
+				{
+					<tr>
+						<td>@item.DestinationId</td>
+						<td>@item.DestinationName</td>
+						<td>
+							<div class="row">IP      : @item.IpAddress</div>
+							<div class="row">AETitle : @item.AETitle</div>
+							<div class="row">Port    : @item.Port</div>
+						</td>
+						<td>@(item.IsPushToFolder == true ? "Folder" : "PACS")</td>
+						@if (item.IsPushToFolder)
+						{
+							<td>@item.PushToFolder</td>
+						}
+						else
+						{
+							<td>
+								<div class="row">IP      : @item.PushToIpAddress</div>
+								<div class="row">AETitle : @item.PushToAETitle</div>
+								<div class="row">Port    : @item.PushToPort</div>
+							</td>
+						}
+						<td>
+							<button onclick="EditDestination(this)" class="btn btn-info btn-sm" title="Edit"  data-Id="@item.Id">
+								<i class="fa fa-edit"></i>
+							</button>
+							<button class="btn btn-danger btn-sm" title="Delete" id="btnDelete" onclick="Delete(this)" data-Id="@item.Id">
+								<i class="fa fa-trash"></i>
+							</button>
+						</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+</div>
+
+
+

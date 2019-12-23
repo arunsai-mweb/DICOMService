@@ -1,0 +1,82 @@
+﻿
+@model DiagoDICOM.Models.Clients
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+
+<form asp-action="SaveClient" id="frmSaveClient">
+
+	<div class="col-md-4 col-xs-4 col-lg-4 col-sm-4">
+		<div class="form-group">
+			<label asp-for="ClientId" class="control-label">Client Id</label>
+			<input type="number" name="ClientId" id="ClientId" value="" class="form-control" style="width:270px" />
+		</div>
+	</div>
+	<div class="col-md-4 col-xs-4 col-lg-4 col-sm-4">
+		<div class="form-group">
+			<label asp-for="ClientName" class="control-label">Client Name</label>
+			@Html.TextBoxFor(x => x.ClientName, new { @class = "form-control", @style = "width:270px" })
+		</div>
+	</div>
+	<div class="form-group pull-right">
+		<input type="submit" value="Submit" id="btnSaveClient" class="btn btn-primary" />
+	</div>
+</form>
+
+@Html.HiddenFor(x => x.ClientId, new { @class = "hdnClientId" })
+<script>
+	var data = {};
+	$(function () {
+
+		data = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Clients))');
+		console.log(data);
+		if ('@Model.ClientId' == 0) {
+			$('#ClientId').val('');
+		}
+		else {
+			$('#ClientId').val('@Model.ClientId')
+		}
+	})
+
+	var validator = $("#frmSaveClient").validate({
+		errorClass: "errors",
+		rules: {
+			"ClientId": {
+				required: true,
+			},
+			"ClientName": {
+				required: true,
+			},
+		},
+		messages: {
+			"ClientId": "Required",
+			"ClientName":"Required"
+		}
+	})
+
+	$('#btnSaveClient').click(function (e) {
+		var mode = $('.modal-title').text().split(" ")[0];
+		e.preventDefault();
+		var hasMatch = false;
+		for (var index = 0; index < data.length; ++index) {
+			var client = data[index];
+			console.log(client);
+			if (client.ClientId == parseInt($('#ClientId').val())) {
+				hasMatch = true;
+				break;
+			}
+		}
+		if (hasMatch && mode == "Add") {
+			alert("ClientId already Exists");
+			return false;
+		}
+		if (validator.valid()) {
+			$('#frmSaveClient').submit();
+		}
+		else {
+			return false;
+		}
+	})
+</script>

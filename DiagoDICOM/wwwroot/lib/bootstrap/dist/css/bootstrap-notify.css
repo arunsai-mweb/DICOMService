@@ -1,0 +1,83 @@
+.notifications {
+    position: fixed;
+    z-index: 999999999999999;
+}
+
+    /* Positioning */
+    .notifications.top-right {
+        right: 35px;
+        top: 50px;
+    }
+
+    .notifications.top-left {
+        left: 45px;
+        top: 50px;
+    }
+
+    .notifications.bottom-left {
+        left: 45px;
+        bottom: 50px;
+    }
+
+    .notifications.bottom-right {
+        right: 45px;
+        bottom: 50px;
+    }
+
+    /* Notification Element */
+    .notifications > div {
+        position: relative;
+        margin: 5px 0px;
+    }
+
+
+    .notifications .alert {
+        padding: 10px;
+        line-height: 22px;
+        padding: 6px 10px;
+        position: relative;
+        -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+        -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    }
+
+        /*.notifications .alert:before, .notifications .alert:after {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            -webkit-box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            -moz-box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            top: 10px;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            -moz-border-radius: 100px / 10px;
+            border-radius: 100px / 10px;
+        }*/
+
+        /*.notifications .alert:after {
+            right: 10px;
+            left: auto;
+            -webkit-transform: skew(8deg) rotate(3deg);
+            -moz-transform: skew(8deg) rotate(3deg);
+            -ms-transform: skew(8deg) rotate(3deg);
+            -o-transform: skew(8deg) rotate(3deg);
+            transform: skew(8deg) rotate(3deg);
+        }*/
+
+        .notifications .alert .close {
+            padding-left: 10px;
+        }
+
+    .notifications .alert-success {
+        color: #568256;
+        background-color: #B1E89A;
+        border-color: #E6EFDE;
+    }
+
+    .notifications .alert-danger {
+        color: #C53A37;
+        background-color: #FFC9C9;
+        border-color: #AF838A;
+    }

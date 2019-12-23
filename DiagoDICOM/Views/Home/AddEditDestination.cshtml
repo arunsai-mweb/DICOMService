@@ -1,0 +1,214 @@
+﻿@model DiagoDICOM.Models.Destination
+@{
+
+	var message = ViewBag.Message == null ? "" : ViewBag.Message;
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/bootstrap.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+<form asp-action="SaveDestination" id="frmAddEditDestination">
+	@Html.HiddenFor(x => x.Id)
+	<div text-align="center" class="errors">@message</div>
+	<div class="row">		
+		<div class="form-group mrDv">
+			<label asp-for="DestinationId" class="control-label">Destination Id</label>
+			@Html.TextBoxFor(x => x.DestinationId, new { @class = "form-control", @type = "number" })
+		</div>
+		<div class="pdDv"></div>
+		<div class="form-group">
+			<label asp-for="DestinationName" class="control-label">Destination Name</label>
+			@Html.TextBoxFor(x => x.DestinationName, new { @class = "form-control" })
+		</div>
+	</div>
+	<div class="row">
+		<div class="form-group mrDv">
+			<label asp-for="IpAddress" class="control-label">IP Address</label>
+			@Html.TextBoxFor(x => x.IpAddress, new { @class = "form-control" })
+		</div>
+		<div class="form-group mrDv">
+			<label asp-for="AETitle" class="control-label">AE Title</label>
+			@Html.TextBoxFor(x => x.AETitle, new { @class = "form-control" })
+		</div>
+		<div class="form-group">
+			<label asp-for="Port" class="control-label"></label>
+			@Html.TextBoxFor(x => x.Port, new { @class = "form-control" })
+		</div>
+	</div>
+	<div class="row">
+			<div class="form-group form-inline">
+				<lable><span>Forward DICOM Study To: </span></lable>
+				<div class="radio" style=" margin-left: 20px;">
+					<label class="radio-inline control-label">
+						<input type="radio" id="rdFolder" name="IsPushToFolder" value="True">
+						<span style="margin-left:10px">Folder</span>
+					</label>
+				</div>
+				<div class="radio" style="margin-left: 20px;">
+					<label class="radio-inline control-label">
+						<input type="radio" id="rdPacs" name="IsPushToFolder" value="False" checked>
+						<span style="margin-left:10px">PACS</span>
+                    </label>
+				</div>
+			</div>
+	</div>
+	<div class="row dvPTAI">
+		<div id="mrDv">
+			<div class="form-group mrDv">
+				<label asp-for="PushToIpAddress" class="control-label">Push To IP Address</label>
+				@Html.TextBoxFor(x => x.PushToIpAddress, new { @class = "form-control" })
+			</div>
+		</div>
+		<div id="mrDv">
+			<div class="form-group mrDv">
+				<label asp-for="PushToAETitle" class="control-label">Push To AETitle</label>
+				@Html.TextBoxFor(x => x.PushToAETitle, new { @class = "form-control" })
+			</div>
+		</div>
+		<div>
+			<div class="form-group">
+				<label asp-for="PushToPort" class="control-label">Push To Port</label>
+				@Html.TextBoxFor(x => x.PushToPort, new { @class = "form-control", })
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div id="dvPushToFolder">
+			<div class="form-group">
+				<label asp-for="PushToFolder" class="control-label">Push To Folder</label>
+				@Html.TextBoxFor(x => x.PushToFolder, new { @class = "form-control" })
+				<span class="control-label"><b>Ex: D:\FolderName\</b></span>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<input type="submit" value="Submit" id="btnSubmit" class="btn btn-primary pull-right" />
+	</div>
+	@Html.HiddenFor(x=>x.IsPushToFolder)
+</form>
+
+
+<script>
+
+	var clients = {};
+	var dest = {};
+
+	$(function () {
+
+		clients = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Clients))');
+		dest = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Destinations))');
+
+		$('.multilinks > li > a').removeClass('active');
+		$('.multilinks > li > a.tab2').addClass('active');
+
+		if ('@Model.IsPushToFolder' == 'False') {
+			$('#dvPushToFolder').hide();
+			$('.dvPTAI').show();
+			$('input[name="IsPushToFolder"][value="False"]').attr('checked', 'checked');
+			$('#IsPushToFolder').val(false);
+		}
+		else {
+			$('.dvPTAI').hide();
+			$('#dvPushToFolder').show();
+			$('input[name="IsPushToFolder"][value="True"]').attr('checked', 'checked');
+			$('#IsPushToFolder').val(true);
+			
+		}
+		
+	})
+
+	var validator = $("#frmAddEditDestination").validate({
+		errorClass: "errors",
+		rules: {
+			"DestinationId": {
+				required:true
+			},
+			"DestinationName": {
+				required: true,
+			},
+			"AETitle": {
+				required: true,
+			},
+			"Port": {
+				required:true
+			},
+			"IpAddress": {
+				required: true
+			},
+			"PushToAETitle": {
+				required: true
+			},
+			"PushToIpAddress": {
+				required: true
+			},
+			"PushToPort": {
+				required: true
+			},
+			"Modality": {
+				required: true
+			},
+			"PushToFolder": {
+				required: $('#IsPushToFolder').is(":checked")
+			}
+		},
+		messages: {
+
+		}
+	});
+	$('input[name="IsPushToFolder"]').change(function () {
+		if ($(this).val() == "False")
+		{
+			$('#dvPushToFolder').hide();
+			$('#PushToFolder').val('');
+			$('.dvPTAI').show();
+			$('#IsPushToFolder').val(true);
+		}
+		else
+		{
+			$('#dvPushToFolder').show();
+			$('#IsPushToFolder').val(false);
+			$('#PushToIpAddress').val('');
+			$('#PushToPort').val('');
+			$('#PushToAETitle').val('');
+			$('.dvPTAI').hide();
+		}
+		
+	})
+
+	$('#btnSubmit').click(function (e) {
+		debugger;
+		var mode = $('.modal-title').text().split(" ")[0];
+		e.preventDefault();
+		var hasMatch = false;
+		for (var index = 0; index < clients.length; ++index) {
+			var c = clients[index];
+			if (c.ClientId == parseInt($('#DestinationId').val())) {
+				hasMatch = true;
+				break;
+			}
+		}
+
+		for (var index = 0; index < dest.length; ++index) {
+			var d = dest[index];
+			if (d.DestinationId == parseInt($('#DestinationId').val())) {
+				hasMatch = true;
+				break;
+			}
+		}
+
+		if (hasMatch && mode == "Add") {
+			alert("DestinationId must be unique accross ClientId and DestinationId");
+			return false;
+		}
+		if (validator.valid()) {
+			$('#frmAddEditDestination').submit();
+		}
+		else {
+			return false;
+		}
+	})
+
+
+</script>

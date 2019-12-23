@@ -1,0 +1,74 @@
+﻿@model IEnumerable<DiagoDICOM.Models.Logs>
+
+@{
+
+}
+
+<script>
+	$(function () {
+
+		$('.multilinks > li > a').removeClass('active');
+		$('.multilinks > li > a.tab4').addClass('active');
+
+		var table = $('#tblLogs').DataTable({
+			//"bSearchable":false,
+			"rowsGroup": [0,1],
+			processing: "true",
+			responsive: {
+
+			},
+			"pageLength": 50,
+			"bSort": false,
+			"bLengthChange": false,
+			"scrollY": "400px",
+			"scrollCollapse": true,
+			language: {
+				search: "_INPUT_",
+				searchPlaceholder: "Search..."
+			},
+		});
+	});
+</script>
+<style>
+
+	table.dataTable {
+		border-collapse: collapse !important;
+	}
+		table.dataTable tbody td {
+			word-break: break-word;
+			vertical-align: top;
+		}
+</style>
+
+	<div class="">
+		<table class="table table-bordered table-hover" id="tblLogs" style="width:100%">
+			<thead>
+				<tr>
+					@if (Model.Count() > 0)
+					{
+						<th><button type="button" class="btn btn-sm btn-danger" title="Delete Logs" onclick="DeleteLogs()"><i class="fa fa-trash"></i></button></th>
+					}
+					else
+					{
+						<th></th>
+					}
+					<th>Image Id</th>
+					<th>Log Level</th>
+					<th>Sent On</th>
+					<th>Info</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+				<tr>
+					<td><input type="checkbox" value="@item.LogId" class="chkLog checkbox-lg"></td>
+					<td>@item.Value</td>
+					<td>@item.LogLevel</td>
+					<td>@item.CreatedOn</td>
+					<td class="wrdBrk">@item.ExceptionDetails</td>
+				</tr>
+				}
+				</tbody>
+		</table>
+</div>

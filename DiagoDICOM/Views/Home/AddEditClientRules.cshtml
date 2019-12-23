@@ -1,0 +1,84 @@
+﻿@model DiagoDICOM.Models.Clients
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+
+
+<form asp-action="SaveClientRule" id="frmSaveClientRule">
+	@Html.HiddenFor(x => x.ClientRuleId)
+	<div align="center"><label class="control-label"><b>Client : @Model.ClientName </b></label></div>
+	<div class="col-md-4 col-xs-4 col-lg-4 col-sm-4">
+		<div class="form-group">
+			<label asp-for="Modality" class="control-label">Modality</label>
+			@Html.TextBoxFor(x => x.Modality, new { @id = "Modality", @class = "form-control", @style = "width:270px" })
+		</div>
+	</div>
+	<div class="col-md-4 col-xs-4 col-lg-4 col-sm-4">
+		<div class="form-group">
+			<label asp-for="Description" class="control-label">Description</label>
+			@Html.TextBoxFor(x => x.Description, new { @id = "", @class = "form-control", @style = "width:270px"})
+		</div>
+	</div>
+	<div class="col-md-4 col-xs-4 col-lg-4 col-sm-4">
+		<div class="form-group">
+			<label asp-for="DestinationId" class="control-label">Destination</label>
+			@Html.DropDownList("DestinationId", ViewData["Destinations"] as IEnumerable<SelectListItem>, "Select", new { @class = "form-control", @style = "width:270px" })
+		</div>
+	</div>
+	@Html.HiddenFor(x => x.ClientRuleId)
+	@Html.HiddenFor(x => x.ClientId)
+	<div class="form-group pull-right">
+		<input type="submit" value="Submit" id="btnSaveClientRule" class="btn btn-primary" />
+	</div>
+</form>
+
+<script>
+
+	var rulesData = {};
+	$(function () {
+		rulesData = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.ClientRules))');
+		console.log(rulesData);
+	})
+
+	var validator = $("#frmSaveClientRule").validate({
+		errorClass: "errors",
+		rules: {
+			"Modality": {
+				required: true,
+			},
+			"DestinationId": {
+				required: true,
+			},
+		},
+		messages: {
+			"Modality": "Required",
+			"DestinationId": "Required"
+		}
+	})
+
+	$('#btnSaveClientRule').click(function (e) {
+		var mode = $('.modal-title').text().split(" ")[0];
+		e.preventDefault();
+		var hasMatch = false;
+		for (var index = 0; index < rulesData.length; ++index) {
+			var rule = rulesData[index];
+			console.log(rule);
+			if ($.trim(rule.Modality).toLowerCase() == $.trim($('#Modality').val()).toLowerCase() && rule.DestinationId == parseInt($('#DestinationId').val())) {
+				hasMatch = true;
+				break;
+			}
+		}
+		if (hasMatch && mode == "Add") {
+			alert("Modality already exists for the destination");
+			return false;
+		}
+		if (validator.valid()) {
+			$('#frmSaveClientRule').submit();
+		}
+		else {
+			return false;
+		}
+
+	})
+</script>

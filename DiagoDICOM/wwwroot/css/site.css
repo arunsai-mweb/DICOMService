@@ -1,18 +1,83 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+﻿
+.sticky-offset {
+	top: 56px;
+}
+.errors {
+   color:red;
+}
+#body-row {
+	margin-left: 0;
+	margin-right: 0;
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
+#sidebar-container {
+	min-height: 100vh;
+	background-color: #333;
+	padding: 0;
+	width:auto;
+}
+
+/* Sidebar sizes when expanded and expanded */
+.sidebar-expanded {
+	width: 170px;
+}
+
+.sidebar-collapsed {
+	width: 60px;
+}
+
+/* Menu item*/
+#sidebar-container .list-group a {
+	height: 50px;
+	color: white;
+}
+
+/* Submenu item*/
+#sidebar-container .list-group .sidebar-submenu a {
+	height: 45px;
+	padding-left: 30px;
+}
+
+.sidebar-submenu {
+	font-size: 0.9rem;
+}
+
+/* Separators */
+.sidebar-separator-title {
+	background-color: #333;
+	height: 35px;
+}
+
+.sidebar-separator {
+	background-color: #333;
+	height: 25px;
+}
+
+.logo-separator {
+	background-color: #333;
+	height: 60px;
+}
+
+/* Closed submenu icon */
+#sidebar-container .list-group .list-group-item[aria-expanded="false"] .submenu-icon::after {
+	content: " \f0d7";
+	font-family: FontAwesome;
+	display: inline;
+	text-align: right;
+	padding-left: 10px;
+}
+/* Opened submenu icon */
+#sidebar-container .list-group .list-group-item[aria-expanded="true"] .submenu-icon::after {
+	content: " \f0da";
+	font-family: FontAwesome;
+	display: inline;
+	text-align: right;
+	padding-left: 10px;
+}
 html {
   font-size: 14px;
 }
-@media (min-width: 768px) {
+@media (min-width: 500px) {
   html {
     font-size: 16px;
   }
@@ -41,10 +106,10 @@ html {
   min-height: 100%;
 }
 
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+.btn:hover {
+    cursor:pointer;
 }
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -53,4 +118,80 @@ body {
   /* Set the fixed height of the footer here */
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
+}
+
+#modalDialog {
+	-webkit-transform: translate3d(0, 0, 0) !important;
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+  cursor:pointer;
+}
+.no-js #loader {
+	display: none;
+}
+
+.js #loader {
+	display: block;
+	position: absolute;
+	left: 100px;
+	top: 0;
+}
+
+.se-pre-con {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url(http://smallenvelop.com/wp-content/uploads/2014/08/Preloader_11.gif) center no-repeat #fff;
+}
+
+body {
+	font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+}
+
+.active {
+	background-color: #1470af !important;
+	color: white !important;
+}
+
+
+
+.dataTables_filter {
+	display: none;
+}
+
+table.dataTable thead th, table.dataTable tbody td {
+	padding: 4px 8px; /* e.g. change 8x to 4px here */
+}
+table.dataTable thead th {
+   background-color:#ededed;
+}
+.user:hover {
+	cursor: pointer;
+}
+
+.wrdBrk {
+	word-wrap:break-word;
+	max-width:340px;
+}
+.multilinks > li > a {
+	font-size: 18px;
+	padding: 5px 15px;
+	font-weight: 500;
+}
+
+.multilinks > li.active > a {
+	text-decoration: none;
+	background-color: #0a82d4;
+	color: white;
+}
+.checkbox-lg {
+   width:15px;
+   height:40px;
+}
+.mrDv {
+   margin-right:30px;
 }

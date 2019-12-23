@@ -1,0 +1,18 @@
+﻿
+@{
+
+	
+}
+
+
+<h3>
+	<span id="message"></span>
+</h3>
+
+<script>
+	$(function () {
+		$('#sidebar-container').attr("style", "display:none !important");
+		$('.ulLogIn,.ulTabs').hide();
+		$('#message').html('@Html.Raw(ViewBag.Message)');
+	})
+</script>

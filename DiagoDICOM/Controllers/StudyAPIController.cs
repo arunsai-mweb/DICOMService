@@ -1,0 +1,97 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using DiagoDICOM.Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using DiagoDICOM.Models;
+using Newtonsoft.Json;
+using System.Net;
+using System.Dynamic;
+using System.Xml;
+using System.Xml.Serialization;
+
+namespace DiagoDICOM.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class StudyAPIController : ControllerBase
+    {
+		DataAccess da = new DataAccess();
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
+
+        [HttpGet("{id}", Name = "Get")]
+        public string Get(int id)
+        {
+            return "value";
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody]CaseStudies cs)
+        {
+
+			if (!String.IsNullOrEmpty(cs.ScanDate) && !String.IsNullOrEmpty(cs.ScanTime))
+				cs.ScanDate = Convert.ToString(DateTime.Parse(DateTime.ParseExact((cs.ScanDate + cs.ScanTime).Substring(0, 12), "yyyyMMddHHmm", null).ToString("yyyy-MM-dd hh:mm tt")));
+			var modal = da.SaveImageStudy(cs);
+			if (modal.DestinationId != 0)
+			{
+				return StatusCode((int)HttpStatusCode.OK, JsonConvert.SerializeObject(modal));
+			}
+			else
+			{
+				da.SaveLogDetails("INFO", DateTime.Now.ToString() + " DICOM Study Saved but no destination found for the modality or clientId may be wrong", cs.SOPInstanceUID);
+				return StatusCode((int)HttpStatusCode.BadRequest, JsonConvert.SerializeObject(modal));
+			}
+		}
+
+		[HttpPost("Update")]
+		public IActionResult Update()
+		{
+			var sopInstanceUId = Request.Form["sopInstanceUID"].FirstOrDefault();
+			var status = Request.Form["status"].FirstOrDefault();
+			dynamic _model = new ExpandoObject();
+			_model = da.UpdateStatus(sopInstanceUId, status);
+			if (_model.DestinationId != 0)
+			{
+				return StatusCode((int)HttpStatusCode.OK, JsonConvert.SerializeObject(_model));
+			}
+			else
+			{
+				da.SaveLogDetails("ERROR", DateTime.Now.ToString() + " No destination found for the modality", sopInstanceUId);
+				return StatusCode((int)HttpStatusCode.BadRequest, JsonConvert.SerializeObject(_model));
+			}
+		}
+
+		[HttpPost("SaveLogDetails")]
+		public IActionResult SaveLogDetails()
+		{
+			var LogLevel = Request.Form["LogLevel"].FirstOrDefault();
+			var Exception = Request.Form["Exception"].FirstOrDefault();
+			var SOPInstanceUID = Request.Form["sopInstanceUID"].FirstOrDefault();
+			da.SaveLogDetails(LogLevel, Exception, SOPInstanceUID);
+			return StatusCode((int)HttpStatusCode.OK);
+		}
+		[HttpPost("CheckServerStatus")]
+		public IActionResult CheckServerStatus()
+		{
+			var serverDetails = Request.Form["serverDetails"].FirstOrDefault();
+			var destinationId = Request.Form["destinationId"].FirstOrDefault();
+			XmlDocument doc = JsonConvert.DeserializeXmlNode(serverDetails, "Root");
+			int val = da.CheckServerStatus(doc.InnerXml.ToString(),Convert.ToInt32(destinationId));
+			if (val == -1)
+			{
+				return StatusCode((int)HttpStatusCode.BadRequest);
+			}
+			else
+			{
+				return StatusCode((int)HttpStatusCode.OK);
+			}
+		}
+	}
+}

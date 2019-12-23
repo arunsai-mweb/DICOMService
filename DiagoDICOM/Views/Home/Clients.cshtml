@@ -1,0 +1,223 @@
+﻿@using DiagoDICOM.Common;
+@using DiagoDICOM.Models;
+@model IEnumerable<Clients>
+@{
+	ViewData["Title"] = "Clients";
+}
+<script src="~/js/Dialogs.js"></script>
+<script>
+	var getUrl = window.location;
+	var baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
+	function format(d, clientId) {
+		var table = '<table class="table table-bordered" style="margin-left:100px;width:80%">'
+		$.ajax({
+			url: baseUrl + "Home/GetClientRules?clientId=" + parseInt(d[1]),
+			type: "Get",
+			async: false,
+			traditional: true,
+			success: function (response) {
+				console.log(response)
+				table += '<thead><th>Modality</th><th>Description</th><th>Destination</th><th>Action</th></thead>'
+				$(response).each(function (i, data) {
+					table += '<tbody><td style="width:250px">' + data.modality + '</td><td style="width:250px">'+ data.description +'</td>' + '<td style="width:250px">' + data.destinationName + '</td>'
+					table += '<td style="width:250px"><button class="btn btn-info btn-sm" title="Edit" id="btnDelete" onclick="EditRule(this)" data-clientRuleId="' + data.clientRuleId + '"><i class="fa fa-edit"></i ></button>&nbsp'
+					table += '<button class="btn btn-danger btn-sm" title="Delete" id="btnDelete" onclick="DeleteRule(this)" data-clientRuleId="' + data.clientRuleId + '">'
+					table += '<i class="fa fa-trash"></i></button></td></tbody>'
+				})
+			}
+
+		})
+		table += '</table>'
+		return table;
+	}
+
+	$(document).ready(function () {
+		$('.multilinks > li > a').removeClass('active');
+		$('.multilinks > li > a.tab1').addClass('active');
+
+		var table = $('#tblClients').DataTable({
+			//"bSearchable":false,
+			processing: "true",
+			responsive: {
+				details: {
+					type: 'column',
+					target: 'tr'
+				}
+			},
+			"bSort": false,
+			"bLengthChange": false,
+			language: {
+				search: "_INPUT_",
+				searchPlaceholder: "Search..."
+			},
+			"columns": [
+				{
+					"class": "details-control",
+					"width":"4%"
+				},
+				null,
+				null,
+				{ "width": "20%" },
+			],
+			order: [1, 'asc']
+		});
+
+		var dataTable = $('#tblClients').dataTable();
+		$("#searchbox").keyup(function () {
+			dataTable.fnFilter(this.value);
+		});
+
+		$('#tblClients tbody').on('click', 'td.details-control', function () {
+			var tr = $(this).closest('tr');
+			var row = table.row(tr);
+			if (row.child.isShown()) {
+				row.child.hide();
+				tr.removeClass('shown');
+				$(this).find("i").toggleClass('fa-minus-circle fa-plus-circle')
+			}
+			else {
+				row.child(format(row.data())).show();
+				tr.addClass('shown');
+				$(this).find("i").toggleClass("fa-plus-circle fa-minus-circle")
+			}
+		});
+
+		$("#tblClients").DataTable().rows().every(function () {
+			var tr = $(this.node());
+			var row = table.row(tr);
+			this.child(format(row.data())).show();
+			tr.addClass('shown');
+			$(this).toggleClass("fa-plus-circle fa-minus-circle")
+		});
+
+
+});
+
+	    function AddClientRule(e) {
+		var row = $(e).closest('tr');
+		var id = row.find("td.tdId").data("clientid");
+		var name = row.find("td.tdName").data("clientname");
+		$.get(baseUrl + "Home/AddEditClientRule", { clientId: id, clientName: name }, function (html) {
+			var div = $(html);
+			$.showDialog("Add Client Rule", div, function () {
+			}, function () {
+				$(".modal-dialog").removeClass("modal-lg");
+				$(".modal-content").attr("style", "width:500px")
+			});
+		});
+	}
+
+	function EditRule(e) {
+		$.get(baseUrl + "Home/AddEditClientRule", { clientRuleId: parseInt($(e).data('clientruleid')) }, function (html) {
+			var div = $(html);
+			$.showDialog("Edit Client Rule", div, { backdrop: 'static' }, function () {
+			}, function () {
+				$(".modal-dialog").removeClass("modal-lg");
+				$(".modal-content").attr("style", "width:500px")
+			});
+		});
+	}
+
+	function DeleteRule(e) {
+		$(e).closest('tr').remove();
+		$.get(baseUrl + "Home/DeleteClientRule", { clientRuleId: parseInt($(e).data('clientruleid')) }, function (html) {
+			$.notify({
+				message: "Deleted Successfully"
+			}, {
+					type: "danger"
+				});
+		});
+	}
+
+	function Add(e) {
+		$.get('@Url.Action("AddEditClient","Home")', { clientId: parseInt($('.hdnClientId').val()) }, function (html) {
+			var div = $(html);
+			$.showDialog("Add Client", div, { backdrop: 'static' }, function () {
+			}, function () {
+				$(".modal-dialog").removeClass("modal-lg");
+				$(".modal-content").attr("style","width:450px")
+			});
+		});
+	}
+
+	function Edit(e) {
+		$.get('@Url.Action("AddEditClient","Home")', { clientId: parseInt($(e).data('clientid')) }, function (html) {
+			var div = $(html);
+			$.showDialog("Edit Client", div, { backdrop: 'static' }, function () {
+			}, function () {
+				$(".modal-dialog").removeClass("modal-lg");
+				$(".modal-content").attr("style","width:450px")
+			});
+		});
+	}
+
+
+	function Delete(e) {
+		var table = $('#tblClients').DataTable();
+		var row = table.row($(e).closest('tr'));
+		row.child().remove();
+		$(e).closest('tr').remove();
+		$.post('@Url.Action("DeleteClient","Home")', { clientId: parseInt($(e).data('clientid')) }, function(){
+			$.notify({
+				message: "Deleted Successfully"
+			}, {
+					type: "danger"
+				});
+		})
+	}
+
+
+</script>
+
+<style>
+	table.dataTable {
+		border-collapse: collapse !important;
+	}
+
+		table.dataTable tbody td {
+			word-break: break-word;
+			vertical-align: top;
+		}
+</style>
+<div>
+	<input type="text" class="form-control" style="width:20%;height:10%" placeholder="Search" id="searchbox">
+</div>
+<div align="right">
+	<button class="btn btn-primary" style="color:#fff !important" onclick="Add(this)"><i class="fa fa-plus"></i> Add</button>
+</div>
+<div class="table-responsive text-nowrap">
+	<table id="tblClients" class="table table-bordered table-hover" style="width:100%">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Client Id</th>
+				<th>Client Name</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (Model.Count() > 0)
+			{
+				foreach (var item in Model)
+				{
+					<tr class="trClient">
+						<td><i class="fa fa-minus-circle"></i></td>
+						<td data-clientId="@item.ClientId" class="tdId">@item.ClientId</td>
+						<td data-clientName="@item.ClientName" class="tdName">@item.ClientName</td>
+						<td>
+							<button class="btn btn-info btn-sm" title="Edit" id="btnDelete" onclick="Edit(this)" data-clientId="@item.ClientId">
+								<i class="fa fa-edit"></i>
+							</button>
+							<button class="btn btn-danger btn-sm" title="Delete" id="btnDelete" onclick="Delete(this)" data-clientId="@item.ClientId">
+								<i class="fa fa-trash"></i>
+							</button>
+							<button class="btn btn-primary btn-sm" title="Add Client Rule" id="btnAddClientRule" onclick="AddClientRule(this)" data-clientId="@item.ClientId">
+								<i class="fa fa-plus"></i>
+							</button>
+						</td>
+					</tr>
+				}
+			}
+		</tbody>
+	</table>
+	</div>
