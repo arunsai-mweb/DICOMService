@@ -185,38 +185,52 @@ namespace DiagoDICOM.Data
 
 		public List<Clients> GetClients()
 		{
-			try
-			{
+			
 				using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
 				{
+				try
+				{
+					connection.Open();
 					return connection.Query<Clients>("GetClients", commandType: CommandType.StoredProcedure).ToList();
 				}
-			}
-			catch (Exception ex)
-			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
-				throw ex;
+				catch (Exception ex)
+				{
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					throw ex;
+				}
+				finally
+				{
+					connection.Close();
+				}
 			}
 		}
 		public Clients GetClientById(int? clientId)
 		{
-			try
+
+			using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
 			{
-				using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
+				try
 				{
+					connection.Open();
 					var parameters = new Dictionary<string, object>
 				{
 					{ "ClientId", clientId }
 				};
 					var data = connection.QueryFirst<Clients>("GetClientById", parameters, commandType: CommandType.StoredProcedure);
+
 					return data;
 				}
+				catch (Exception ex)
+				{
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					return null;
+				}
+				finally
+				{
+					connection.Close();
+				}
 			}
-			catch (Exception ex)
-			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
-				throw ex;
-			}
+			
 		}
 		public void AddEditClient(Clients client)
 		{
@@ -326,46 +340,57 @@ namespace DiagoDICOM.Data
 		}
 		public void DeleteClientRule(int clientRuleId)
 		{
-		  try
-			{
+		  
 				using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
 				{
-					var parameters = new Dictionary<string, object>
+				try
 				{
-					{ "ClientRuleId", clientRuleId }
-				};
-					connection.Query("DeleteClientRule", parameters, commandType: CommandType.StoredProcedure);
+					connection.Open();
+					connection.Query("DeleteClientRule", new { ClientRuleId = clientRuleId }, commandType: CommandType.StoredProcedure);
+				}
+				catch (Exception ex)
+				{
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					throw ex;
+				}
+				finally
+				{
+					connection.Close();
 				}
 			}
-			catch (Exception ex)
-			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
-				throw ex;
-			}
+			
 		}
 
 		public List<Logs> GetLogs()
 		{
-			try
-			{
+			
 				using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
 				{
-					return connection.Query<Logs>("GetLogs",commandType: CommandType.StoredProcedure).ToList();
+				try
+				{
+					connection.Open();
+					return connection.Query<Logs>("GetLogs", commandType: CommandType.StoredProcedure).ToList();
+				}
+				catch (Exception ex)
+				{
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					throw ex;
+				}
+				finally {
+					connection.Close();
 				}
 			}
-			catch (Exception ex)
-			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
-				throw ex;
-			}
+			
 		}
 
 		public List<CaseStudies> GetStudyStatus(string studyId, int clientId)
 		{
-			try
-			{
 				using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
 				{
+
+				try
+				{
+					connection.Open();
 					var parameters = new Dictionary<string, object>
 				{
 					{ "StudyId", studyId },
@@ -373,20 +398,26 @@ namespace DiagoDICOM.Data
 				};
 					return connection.Query<CaseStudies>("GetStudyStatus", parameters, commandType: CommandType.StoredProcedure).ToList();
 				}
+				catch (Exception ex)
+				{
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					throw ex;
+				}
+				finally {
+					connection.Close();
+				}
 			}
-			catch (Exception ex)
-			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
-				throw ex;
-			}
+			
 		}
 
 		public Destination SaveImageStudy(CaseStudies cs)
 		{
-			try
-			{
 				using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
 				{
+
+				try
+				{
+					connection.Open();
 					var parameters = new Dictionary<string, object>
 				{
 					{ "PatientId", cs.PatientId },
@@ -402,21 +433,27 @@ namespace DiagoDICOM.Data
 					{ "ScanDate",cs.ScanDate},
 					{ "StudyDescription",cs.StudyDescription}
 				};
-					return connection.QueryFirst<Destination>("SaveImageStudy", parameters, commandType: CommandType.StoredProcedure);
+					return connection.QueryFirst<Destination>("SaveImageStudy", parameters, commandType: CommandType.StoredProcedure) ?? new Destination();
+				}
+				catch (Exception ex)
+				{
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					throw ex;
+				}
+				finally {
+					connection.Close();
 				}
 			}
-			catch (Exception ex)
-			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
-				throw ex;
-			}
+			
 		}
 		public void SaveLogDetails(string logLevel, string exception, string sopInstanceUID)
 		{
-			try
-			{
+			
 				using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
 				{
+				try
+				{
+					connection.Open();
 					var parameters = new Dictionary<string, object>
 				{
 					{ "LogLevel", logLevel },
@@ -425,74 +462,124 @@ namespace DiagoDICOM.Data
 				};
 					connection.Query("SaveLogDetails", parameters, commandType: CommandType.StoredProcedure);
 				}
+				catch (Exception ex)
+				{
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					throw ex;
+				}
+				finally {
+					connection.Close();
+				}
 			}
-			catch (Exception ex)
-			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
-				throw ex;
-			}
+			
 		}
 
 		public Destination UpdateStatus(string SopInstanceUID, string status)
 		{
-			try
-			{
+			
 				using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
 				{
+				try
+				{
+					connection.Open();
 					var parameters = new Dictionary<string, object>
 				{
 					{ "Status", status },
 					{ "SOPInstanceUID", SopInstanceUID},
 				};
-					return connection.QueryFirst<Destination>("UpdateStatus", parameters, commandType: CommandType.StoredProcedure) ?? new Destination();
+					return connection.Query<Destination>("UpdateStatus", parameters, commandType: CommandType.StoredProcedure).Single() ?? new Destination();
+
+				}
+				catch (Exception ex)
+				{
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					throw ex;
+				}
+				finally
+				{
+					connection.Close();
 				}
 			}
-			catch (Exception ex)
-			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
-				throw ex;
-			}
+
 		}
 
 		public void DeleteStudies(string studyIds)
 		{
-			try
-			{
+			
 				using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
 				{
+				try
+				{
+					connection.Open();
 					var parameters = new Dictionary<string, object>
 				{
 					{ "studyIds", studyIds },
 				};
 					connection.Query("DeleteStudies", parameters, commandType: CommandType.StoredProcedure);
 				}
-			}
-			catch (Exception ex)
-			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
-				throw ex;
+				catch (Exception ex)
+				{
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					throw ex;
+				}
+				finally
+				{
+					connection.Close();
+				}
+
 			}
 		}
 
-		public int CheckServerStatus(string xml,int destinationId)
+		public int UpdateDestinationAppStatus(string xml, int destinationId)
 		{
-			try
+
+			using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
 			{
-				using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
+				try
 				{
+					connection.Open();
 					var parameters = new Dictionary<string, object>
 				{
 					{ "xmlData", xml },
 					{ "destinationId",destinationId}
 				};
-					return connection.Query<int>("CheckServerStatus", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
+					return connection.Query<int>("UpdateDestinationAppStatus", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
+				}
+				catch (Exception ex)
+				{
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					throw ex;
+				}
+				finally
+				{
+					connection.Close();
 				}
 			}
-			catch (Exception ex)
-			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
-				throw ex;
-			}
 		}
+			public int UpdateClientAppStatus(int clientId)
+			{
+
+				using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
+				{
+					try
+					{
+						connection.Open();
+						var parameters = new Dictionary<string, object>
+				{
+					{ "clientId",clientId}
+				};
+						return connection.Query<int>("UpdateClientAppStatus", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
+					}
+					catch (Exception ex)
+					{
+						Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+						throw ex;
+					}
+					finally
+					{
+						connection.Close();
+					}
+				}
+			}
 	}
 }

@@ -41,6 +41,7 @@ namespace DiagoDICOM.Models
 		public int? Id { get; set; }
 		public string Mode { get; set; }
 		public string Error { get; set; }
+		public bool Status { get; set; }
 	}
 
 	public class CaseStudies

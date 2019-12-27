@@ -77,13 +77,31 @@ namespace DiagoDICOM.Controllers
 			da.SaveLogDetails(LogLevel, Exception, SOPInstanceUID);
 			return StatusCode((int)HttpStatusCode.OK);
 		}
-		[HttpPost("CheckServerStatus")]
-		public IActionResult CheckServerStatus()
+		[HttpPost("UpdateDestinationAppStatus")]
+		public IActionResult UpdateDestinationAppStatus()
 		{
 			var serverDetails = Request.Form["serverDetails"].FirstOrDefault();
+			XmlDocument doc = new XmlDocument();
 			var destinationId = Request.Form["destinationId"].FirstOrDefault();
-			XmlDocument doc = JsonConvert.DeserializeXmlNode(serverDetails, "Root");
-			int val = da.CheckServerStatus(doc.InnerXml.ToString(),Convert.ToInt32(destinationId));
+			if (serverDetails != null)
+			{
+				doc = JsonConvert.DeserializeXmlNode(serverDetails, "Root");
+			}
+			int val = da.UpdateDestinationAppStatus(doc.InnerXml.ToString(),Convert.ToInt32(destinationId));
+			if (val == -1)
+			{
+				return StatusCode((int)HttpStatusCode.BadRequest);
+			}
+			else
+			{
+				return StatusCode((int)HttpStatusCode.OK);
+			}
+		}
+		[HttpPost("UpdateClientAppStatus")]
+		public IActionResult UpdateClientAppStatus()
+		{
+			var clientId = Request.Form["clientId"].FirstOrDefault();
+			int val = da.UpdateClientAppStatus(Convert.ToInt32(clientId));
 			if (val == -1)
 			{
 				return StatusCode((int)HttpStatusCode.BadRequest);

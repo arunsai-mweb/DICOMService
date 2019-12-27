@@ -1,0 +1,18 @@
+24-12-2019 13:44:24 : System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1158
+   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1214
+   at Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 741
+   at DiagoDICOM.Data.DataAccess.CheckIsExistingUser(Users user) in D:\DiagoDICOM\DiagoDICOM\Data\DataAccess.cs:line 30
+24-12-2019 14:39:41 : System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1158
+   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1214
+   at Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 741
+   at DiagoDICOM.Data.DataAccess.CheckIsExistingUser(Users user) in D:\DiagoDICOM\DiagoDICOM\Data\DataAccess.cs:line 30
+24-12-2019 18:45:25 : System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1158
+   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1214
+   at Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 741
+   at DiagoDICOM.Data.DataAccess.CheckIsExistingUser(Users user) in D:\DiagoDICOM\DiagoDICOM\Data\DataAccess.cs:line 30

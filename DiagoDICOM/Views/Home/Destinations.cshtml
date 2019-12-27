@@ -101,6 +101,7 @@
 				<th>Identification</th>
 				<th>Forward DICOM Studies To</th>
 				<th>Final Destination Details</th>
+				<th style="text-align:center">Status</th>
 				<th>Action</th>
 			</tr>
 		</thead>
@@ -109,36 +110,44 @@
 			{
 				foreach (var item in Model)
 				{
-					<tr>
-						<td>@item.DestinationId</td>
-						<td>@item.DestinationName</td>
-						<td>
-							<div class="row">IP      : @item.IpAddress</div>
-							<div class="row">AETitle : @item.AETitle</div>
-							<div class="row">Port    : @item.Port</div>
-						</td>
-						<td>@(item.IsPushToFolder == true ? "Folder" : "PACS")</td>
-						@if (item.IsPushToFolder)
-						{
-							<td>@item.PushToFolder</td>
-						}
-						else
-						{
-							<td>
-								<div class="row">IP      : @item.PushToIpAddress</div>
-								<div class="row">AETitle : @item.PushToAETitle</div>
-								<div class="row">Port    : @item.PushToPort</div>
-							</td>
-						}
-						<td>
-							<button onclick="EditDestination(this)" class="btn btn-info btn-sm" title="Edit"  data-Id="@item.Id">
-								<i class="fa fa-edit"></i>
-							</button>
-							<button class="btn btn-danger btn-sm" title="Delete" id="btnDelete" onclick="Delete(this)" data-Id="@item.Id">
-								<i class="fa fa-trash"></i>
-							</button>
-						</td>
-					</tr>
+			<tr>
+				<td>@item.DestinationId</td>
+				<td>@item.DestinationName</td>
+				<td>
+					<div class="row">IP      : @item.IpAddress</div>
+					<div class="row">AETitle : @item.AETitle</div>
+					<div class="row">Port    : @item.Port</div>
+				</td>
+				<td>@(item.IsPushToFolder == true ? "Folder" : "PACS")</td>
+				@if (item.IsPushToFolder)
+				{
+					<td>@item.PushToFolder</td>
+				}
+				else
+				{
+					<td>
+						<div class="row">IP      : @item.PushToIpAddress</div>
+						<div class="row">AETitle : @item.PushToAETitle</div>
+						<div class="row">Port    : @item.PushToPort</div>
+					</td>
+				}
+				@if (item.Status)
+				{
+					<td><div align="center"><button class="btn-round btn-success" title="Active"></button></div></td>
+				}
+				else
+				{
+					<td><div align="center"><button class="btn-round btn-danger"  title="InActive"></button></div></td>
+				}
+				<td>
+					<button onclick="EditDestination(this)" class="btn btn-info btn-sm" title="Edit" data-Id="@item.Id">
+						<i class="fa fa-edit"></i>
+					</button>
+					<button class="btn btn-danger btn-sm" title="Delete" id="btnDelete" onclick="Delete(this)" data-Id="@item.Id">
+						<i class="fa fa-trash"></i>
+					</button>
+				</td>
+			</tr>
 				}
 			}
 		</tbody>
