@@ -1,0 +1,95 @@
+Instructions for the installation of DICOM Client Application 
+
+1. Extract the files to D:\
+
+2. Check the system if it is 32 bit or 64 bit OS
+     If the system is 32 bit, copy 
+   	   32 Bit Install VC_redist.x86 from D:\ClientApp\Packages\VC 
+     If the system is 64 bit, copy 
+	   64 Bit Install VC_redist.x64 from D:\ClientApp\Packages\VC 
+
+3. Open D:\ClientApp\Application\ClientConfigfile
+
+   -> Set the Configurations that are required to run the service
+   
+	    1) ClientId     --   Unique id(Number) that is mentioned in the web app. ex:"5353"		
+		2) FolderPath   --   The path that the files are saved i.e; "D:/ClientApp/InComing/" 
+		3) APIURL       --   Url to the web app should be specified here ex: "https://dicomservice/api/studyapi"
+		4) LogFolder    --   FolderPath for the logs ex:"D:/ClientApp/Logs/"
+		5) DeleteLogs   --   Specify number of days for deleting the log files ex: 2
+        6) DeleteFiles  --   Specify number of days for deleting DICOM files ex: 5	
+
+4. Check the system if it is 32 bit or 64 bit OS
+   
+   If the system is 32 bit, copy 
+   	32 Bit OpenSSL Folder Contents from D:\ClientApp\Packages\OpenSSL-Win32 folder to D:\ClientApp\Application\OpenSSL folder
+
+   If the system is 64 bit, copy 
+	64 Bit  OpenSSL Folder Contents from D:\ClientApp\Packages\OpenSSL-Win64 folder to D:\ClientApp\Application\OpenSSL folder
+	
+   
+   Open D:\ClientApp\Application\OpenSSL\bin folder.
+   
+   Run openssl.exe in administation mode.
+   
+   Create a key and certificate for enabling the tls functionality.
+
+   For key generation enter the following command with the key name as:
+             genrsa -out client.key 2048    
+	
+   For certificate generation enter the following command with the name as:
+             req -config openssl.cfg -new -x509 -key client.key -out client.crt
+			 
+   It will ask some personnal details please enter.
+   
+   Now a pair of client.key and client.crt will be generated.
+   
+   cut or copy both the files and paste it outside the folder in D:\ClientApp\Application
+   
+   And the "client.crt" should be placed both at the ClientApp and DestinationApp for the verification.
+   Can read the destination app instructions for further details.
+
+5. Check the system if it is 32 bit or 64 bit OS
+   
+   If the system is 32 bit, copy 
+   	32 Bit\nssm.exe from D:\ClientApp\Packages\NSSM folder to D:\ClientApp\Application\NSSM folder
+
+   If the system is 64 bit, copy 
+	64 Bit\nssm.exe from D:\ClientApp\Packages\NSSM folder to D:\ClientApp\Application\NSSM folder
+
+
+6. Install ClientApp Listener 
+
+    ============================================= 
+    Set Environment path:
+
+    Go to ControlPanel --> System --> Advanced System Settings --> Environment Variables
+
+    In User Variables
+
+    If PATH is available Edit that PATH and add D:\ClientApp\Application\NSSM
+
+    If PATH is not available Click on NEW 
+
+    Provide Variable Name as PATH and Variable Value as D:\ClientApp\Application\NSSM and click on OK    
+    
+    =============================================
+
+    On Command Prompt as 'Run as Administrator'
+
+    cd D:\ClientApp\Application\NSSM
+
+    nssm install ClientListener
+
+    We will see one pop. 
+    Click Browse button -> Select D:\ClientApp\Application\storescp.exe and click OK
+
+    Paste the below arguments in the arguments textbox 
+
+    -v -aet ClientListener 109 -od "D:\ClientApp\InComing" 
+
+    Now click on InstallService
+   
+   =============================================
+    Open Services as "Run as Administrator" and start the service ClientListener
+

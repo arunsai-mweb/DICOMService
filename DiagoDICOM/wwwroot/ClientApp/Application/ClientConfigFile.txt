@@ -1,0 +1,7 @@
+{
+  "ClientId":"5355",
+  "AppDirectory":"D:/ClientApplication/",
+  "APIURL":"https://localhost:44353/api/StudyApi",
+  "DeleteLogs":1,
+  "DeleteFiles":1
+}

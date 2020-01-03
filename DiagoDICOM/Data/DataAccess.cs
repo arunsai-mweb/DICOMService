@@ -241,7 +241,11 @@ namespace DiagoDICOM.Data
 					var parameters = new Dictionary<string, object>
 				{
 					{ "ClientId", client.ClientId },
-					{ "ClientName", client.ClientName}
+					{ "ClientName", client.ClientName},
+					{ "IpAddress",client.IpAddress },
+					{ "Port",client.Port},
+					{"AETitle",client.AETitle },
+					{ "DestinationId",client.DestinationId}
 				};
 					connection.Query("AddEditClient", parameters, commandType: CommandType.StoredProcedure);
 
@@ -431,7 +435,8 @@ namespace DiagoDICOM.Data
 					{ "StudyId",cs.StudyId},
 					{ "SOPInstanceUID",cs.SOPInstanceUID},
 					{ "ScanDate",cs.ScanDate},
-					{ "StudyDescription",cs.StudyDescription}
+					{ "StudyDescription",cs.StudyDescription},
+					{"AccessionNumber",cs.AccessionNumber }
 				};
 					return connection.QueryFirst<Destination>("SaveImageStudy", parameters, commandType: CommandType.StoredProcedure) ?? new Destination();
 				}
@@ -581,5 +586,31 @@ namespace DiagoDICOM.Data
 					}
 				}
 			}
+		public void DeleteLogs(string logIds)
+		{
+
+			using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
+			{
+				try
+				{
+					connection.Open();
+					var parameters = new Dictionary<string, object>
+				{
+					{ "logIds", logIds },
+				};
+					connection.Query("DeleteLogs", parameters, commandType: CommandType.StoredProcedure);
+				}
+				catch (Exception ex)
+				{
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					throw ex;
+				}
+				finally
+				{
+					connection.Close();
+				}
+
+			}
+		}
 	}
 }

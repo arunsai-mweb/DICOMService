@@ -1,6 +1,6 @@
 ﻿@model DiagoDICOM.Models.Destination
 @{
-
+	Layout = null;
 	var message = ViewBag.Message == null ? "" : ViewBag.Message;
 }
 <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -8,88 +8,91 @@
 <script src="~/lib/jquery/dist/bootstrap.min.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-
+<script src="~/js/Dialogs.js"></script>
 <form asp-action="SaveDestination" id="frmAddEditDestination">
 	@Html.HiddenFor(x => x.Id)
 	<div text-align="center" class="errors">@message</div>
-	<div class="row">		
-		<div class="form-group mrDv">
-			<label asp-for="DestinationId" class="control-label">Destination Id</label>
-			@Html.TextBoxFor(x => x.DestinationId, new { @class = "form-control", @type = "number" })
+	<div class="form-group row">
+		<label asp-for="DestinationId" class="control-label col-sm-5">Destination Id:</label>
+		<div class="col-sm-7">
+			@Html.TextBoxFor(x => x.DestinationId, new { @class = "form-control" })
 		</div>
-		<div class="pdDv"></div>
-		<div class="form-group">
-			<label asp-for="DestinationName" class="control-label">Destination Name</label>
+	</div>
+	<div class="form-group row">
+		<label asp-for="DestinationName" class="control-label col-sm-5">Destination Name:</label>
+		<div class="col-sm-7">
 			@Html.TextBoxFor(x => x.DestinationName, new { @class = "form-control" })
 		</div>
 	</div>
-	<div class="row">
-		<div class="form-group mrDv">
-			<label asp-for="IpAddress" class="control-label">IP Address</label>
+	<div class="form-group row">
+		<label asp-for="IpAddress" class="control-label col-sm-5">IP Address:</label>
+		<div class="col-sm-7">
 			@Html.TextBoxFor(x => x.IpAddress, new { @class = "form-control" })
 		</div>
-		<div class="form-group mrDv">
-			<label asp-for="AETitle" class="control-label">AE Title</label>
+	</div>
+	<div class="form-group row">
+		<label asp-for="AETitle" class="control-label col-sm-5">AE Title:</label>
+		<div class="col-sm-7">
 			@Html.TextBoxFor(x => x.AETitle, new { @class = "form-control" })
 		</div>
-		<div class="form-group">
-			<label asp-for="Port" class="control-label"></label>
+	</div>
+	<div class="form-group row">
+		<label asp-for="Port" class="control-label col-sm-5">Port:</label>
+		<div class="col-sm-7">
 			@Html.TextBoxFor(x => x.Port, new { @class = "form-control" })
 		</div>
 	</div>
-	<div class="row">
-			<div class="form-group form-inline">
-				<lable><span>Forward DICOM Study To: </span></lable>
-				<div class="radio" style=" margin-left: 20px;">
-					<label class="radio-inline control-label">
-						<input type="radio" id="rdFolder" name="IsPushToFolder" value="True">
-						<span style="margin-left:10px">Folder</span>
-					</label>
-				</div>
-				<div class="radio" style="margin-left: 20px;">
-					<label class="radio-inline control-label">
-						<input type="radio" id="rdPacs" name="IsPushToFolder" value="False" checked>
-						<span style="margin-left:10px">PACS</span>
-                    </label>
-				</div>
+		<div class="form-group row form-inline" style="margin-left:13px !important">
+			<lable class="control-label">Forward DICOM Study To:</lable>
+			<div class="radio" style=" margin-left: 25px;">
+				<label class="radio-inline control-label">
+					<input type="radio" id="rdFolder" name="IsPushToFolder" value="True">
+					<span style="margin-left:10px">Folder</span>
+				</label>
 			</div>
-	</div>
-	<div class="row dvPTAI">
-		<div id="mrDv">
-			<div class="form-group mrDv">
-				<label asp-for="PushToIpAddress" class="control-label">Push To IP Address</label>
+			<div class="radio" style="margin-left: 25px;">
+				<label class="radio-inline control-label">
+					<input type="radio" id="rdPacs" name="IsPushToFolder" value="False" checked>
+					<span style="margin-left:10px">PACS</span>
+				</label>
+			</div>
+		</div>
+		<div class="form-group row dvPTAI">
+			<label asp-for="PushToIpAddress" class="control-label col-sm-5">Push To IP Address:</label>
+			<div class="col-sm-7">
 				@Html.TextBoxFor(x => x.PushToIpAddress, new { @class = "form-control" })
 			</div>
 		</div>
-		<div id="mrDv">
-			<div class="form-group mrDv">
-				<label asp-for="PushToAETitle" class="control-label">Push To AETitle</label>
+		<div class="form-group row dvPTAI">
+			<label asp-for="PushToAETitle" class="control-label col-sm-5">Push To AETitle:</label>
+			<div class="col-sm-7">
 				@Html.TextBoxFor(x => x.PushToAETitle, new { @class = "form-control" })
 			</div>
 		</div>
-		<div>
-			<div class="form-group">
-				<label asp-for="PushToPort" class="control-label">Push To Port</label>
+		<div class="form-group row dvPTAI">
+			<label asp-for="PushToPort" class="control-label col-sm-5">Push To Port:</label>
+			<div class="col-sm-7">
 				@Html.TextBoxFor(x => x.PushToPort, new { @class = "form-control", })
 			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div id="dvPushToFolder">
-			<div class="form-group">
-				<label asp-for="PushToFolder" class="control-label">Push To Folder</label>
+		<div class="form-group row" id="dvPushToFolder">
+			<label asp-for="PushToFolder" class="control-label col-sm-5">Push To Folder:</label>
+			<div class="col-sm-7">
 				@Html.TextBoxFor(x => x.PushToFolder, new { @class = "form-control" })
 				<span class="control-label"><b>Ex: D:\FolderName\</b></span>
 			</div>
 		</div>
-	</div>
 	<div class="form-group">
 		<input type="submit" value="Submit" id="btnSubmit" class="btn btn-primary pull-right" />
 	</div>
-	@Html.HiddenFor(x=>x.IsPushToFolder)
+	@Html.HiddenFor(x => x.IsPushToFolder)
 </form>
 
-
+<style>
+	.form-group {
+	  margin-bottom:0.4rem !important;
+	}
+</style>
 <script>
 
 	var clients = {};
@@ -178,7 +181,6 @@
 	})
 
 	$('#btnSubmit').click(function (e) {
-		debugger;
 		var mode = $('.modal-title').text().split(" ")[0];
 		e.preventDefault();
 		var hasMatch = false;

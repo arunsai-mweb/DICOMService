@@ -1,37 +1,57 @@
 ﻿
 @model DiagoDICOM.Models.Clients
-
-
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+@{
+	Layout = null;
+}
 
 <form asp-action="SaveClient" id="frmSaveClient">
+	<div class="form-group row">
+		<label asp-for="ClientId" class="control-label col-sm-4">Client Id:</label>
+		<div class="col-sm-8">
+			<input type="number" name="ClientId" id="ClientId" value="" class="form-control" />
+		</div>
+	</div>
+	<div class="form-group row">
+		<label asp-for="ClientName" class="control-label col-sm-4">Client Name:</label>
+		<div class="col-sm-8">
+			@Html.TextBoxFor(x => x.ClientName, new { @class = "form-control" })
+		</div>
+	</div>
+	<div class="form-group row">
+		<label asp-for="IpAddress" class="control-label col-sm-4">Ip Address:</label>
+		<div class="col-sm-8">
+			@Html.TextBoxFor(x => x.IpAddress, new { @class = "form-control" })
+		</div>
+	</div>
+	<div class="form-group row">
+		<label asp-for="AETitle" class="control-label col-sm-4">AE Title:</label>
+		<div class="col-sm-8">
+			@Html.TextBoxFor(x => x.AETitle, new { @class = "form-control" })
+		</div>
+	</div>
+	<div class="form-group row">
+		<label asp-for="Port" class="control-label col-sm-4">Port:</label>
+		<div class="col-sm-8">
+			@Html.TextBoxFor(x => x.Port, new { @class = "form-control" })
+		</div>
+	</div>
+	<div class="form-group row">
+		<label asp-for="DestinationId" class="control-label col-sm-4">Default Destination:</label>
+		<div class="col-sm-8">
+			@Html.DropDownList("DestinationId", ViewData["Destinations"] as IEnumerable<SelectListItem>, "Select", new { @class = "form-control" })
+		</div>
+	</div>
 
-	<div class="col-md-4 col-xs-4 col-lg-4 col-sm-4">
-		<div class="form-group">
-			<label asp-for="ClientId" class="control-label">Client Id</label>
-			<input type="number" name="ClientId" id="ClientId" value="" class="form-control" style="width:270px" />
-		</div>
-	</div>
-	<div class="col-md-4 col-xs-4 col-lg-4 col-sm-4">
-		<div class="form-group">
-			<label asp-for="ClientName" class="control-label">Client Name</label>
-			@Html.TextBoxFor(x => x.ClientName, new { @class = "form-control", @style = "width:270px" })
-		</div>
-	</div>
 	<div class="form-group pull-right">
 		<input type="submit" value="Submit" id="btnSaveClient" class="btn btn-primary" />
 	</div>
 </form>
-
 @Html.HiddenFor(x => x.ClientId, new { @class = "hdnClientId" })
 <script>
 	var data = {};
 	$(function () {
 
 		data = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Clients))');
-		console.log(data);
 		if ('@Model.ClientId' == 0) {
 			$('#ClientId').val('');
 		}
@@ -40,25 +60,8 @@
 		}
 	})
 
-	var validator = $("#frmSaveClient").validate({
-		errorClass: "errors",
-		rules: {
-			"ClientId": {
-				required: true,
-			},
-			"ClientName": {
-				required: true,
-			},
-		},
-		messages: {
-			"ClientId": "Required",
-			"ClientName":"Required"
-		}
-	})
-
 	$('#btnSaveClient').click(function (e) {
 		var mode = $('.modal-title').text().split(" ")[0];
-		e.preventDefault();
 		var hasMatch = false;
 		for (var index = 0; index < data.length; ++index) {
 			var client = data[index];
@@ -72,11 +75,29 @@
 			alert("ClientId already Exists");
 			return false;
 		}
-		if (validator.valid()) {
-			$('#frmSaveClient').submit();
-		}
-		else {
-			return false;
-		}
+		$("#frmSaveClient").submit(function (e) {
+		}).validate({
+				errorClass: "errors",
+				rules: {
+					"ClientId": {
+						required: true,
+					},
+					"ClientName": {
+						required: true,
+					},
+					"DestinationId": {
+						required: true,
+					},
+				},
+				messages: {
+					"ClientId": "Required",
+					"ClientName": "Required",
+					"DestinationId": "Required"
+			},
+			submitHandler: function (form) {
+				$("#frmSaveClient").submit();
+				return false;
+			}
+		})
 	})
 </script>

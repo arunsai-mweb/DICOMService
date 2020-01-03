@@ -65,6 +65,16 @@
 			});
 		});
 	}
+	function Download(e)
+	{
+		$.get('@Url.Action("Download","Home")', { app: "Destination" }, function (html) {
+			var div = $(html);
+			$.showDialog("Download Destination App", div, { }, function () {
+			
+			});
+		});
+	}
+	
 </script>
 <style>
 	table.dataTable {
@@ -78,18 +88,14 @@
 	.row {
 	  margin:auto !important;
 	}
-	.modal-content {
-	  width:720px;
-	}
-	.modal-dialog {
-	  margin-right:40%;
-	}
 </style>
 <div>
 	<input type="text" class="form-control" style="width:20%;height:10%" placeholder="Search" id="searchbox">
 </div>
 <div align="right">
-	<button onclick="AddDestination(this)"  class="btn btn-primary"><i class="fa fa-plus"></i> Add</button>
+	<button onclick="AddDestination(this)" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add</button>
+	<button class="btn btn-secondary btn-sm" onclick="Download(this)"><i class="fa fa-download"></i> Download Destination App</button>
+
 </div>
 
 <div class="table-responsive text-nowrap">

@@ -68,6 +68,9 @@ namespace DiagoDICOM.Models
 		public string ScanDate { get; set; }
 		public string ScanTime { get; set; }
 		public string StudyDescription { get; set; }
+		public int SuccessCount { get; set; }
+		public int FailureCount { get; set; }
+		public string AccessionNumber { get; set; }
 		
 	}
 
@@ -86,6 +89,10 @@ namespace DiagoDICOM.Models
 		public string LogLevel { get; set; }
 		public string StuydId { get; set; }
 		public int LogId { get; set; }
+		public int ClientId { get; set; }
+		public int DestinationId { get; set; }
+		public string DestinationName { get; set; }
+		public string ClientName { get; set; }
 		public static void WriteToLogFile(string text)
 		{
 			var path = Path.Combine(AppUser.WebRootPath, "Logs", DateTime.Now.Year.ToString(), DateTime.Now.ToShortMonthName());

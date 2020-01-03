@@ -261,3 +261,6 @@ table.dataTable thead th {
 	border-radius: 60%;
 	cursor:pointer;
 }
+.btn {
+  border-radius:0;
+}

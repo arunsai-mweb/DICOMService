@@ -11,7 +11,42 @@
 	var getUrl = window.location;
 	var baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
 	$(document).ready(function () {
+		$('.datepicker').daterangepicker({
+			autoUpdateInput: false,
+			linkedCalendars: false,
+			"locale": { cancelLabel: 'Clear' }
+		});
+		$('.datepicker').on('apply.daterangepicker', function (ev, picker) {
+			var start = picker.startDate;
+			var end = picker.endDate;
 
+			$.fn.dataTable.ext.search.push(
+				function (settings, data, dataIndex) {
+					var min = start;
+					var max = end;
+					var startDate = new Date(data[1]);
+
+					if (min == null && max == null) {
+						return true;
+					}
+					if (min == null && startDate <= max) {
+						return true;
+					}
+					if (max == null && startDate >= min) {
+						return true;
+					}
+					if (startDate <= max && startDate >= min) {
+						return true;
+					}
+					return false;
+				}
+			);
+			table.draw();
+			$.fn.dataTable.ext.search.pop();
+		});
+		$('.datepicker').on('cancel.daterangepicker', function (ev, picker) {
+			$(this).val('');
+		});
 		$('.multilinks > li > a').removeClass('active');
 		$('.multilinks > li > a.tab3').addClass('active');
 
@@ -50,15 +85,15 @@
 			},
 			"columns": [
 				{ "width": "3%" },
-				{ "width": "8%" },
+				{ "width": "10%" },
 				{ "width": "10%" },
 				{ "width": "9%" },
 				{ "width": "7%" },
 				{ "width": "5%" },
-				{ "width": "10%" },
-				{ "width": "10%" },
+				{ "width": "11%" },
+				{ "width": "11%" },
 				{ "width": "20%" },
-				{"Width":"10%" }
+				{"Width":"5%" }
 			],
 			order: [1, 'asc']
 		});
@@ -83,7 +118,7 @@
 	function getLogs(e) {
 		$.get(baseUrl + "Home/GetLogs", { SopInstanceId: $(e).data('sopinstanceuid') }, function (html) {
 			var div = $(html);
-			$.dialog("Logs", div, function () {
+			$.showDialog("Logs", div, function () {
 			}, function () {
 				$(".modal-dialog").removeClass("modal-lg");
 			});
@@ -100,11 +135,6 @@
 			})
 			$.post('@Url.Action("DeleteStudies","Home")', { studyIds: array.join() }, function () {
 				window.location.reload();
-			//$.notify({
-			//	message: "Deleted Successfully"
-			//}, {
-			//		type: "danger"
-			//	});
 		    })
 		}
 		else {
@@ -141,11 +171,12 @@
 			@Html.DropDownList("ClientId", ViewData["Clients"] as IEnumerable<SelectListItem>, "Select Client", new { @class = "form-control", @style = "width:200px" })
 		</div>
 	</div>
-	@*<div class="col-md-2 col-xs-2 col-lg-2 col-sm-2">
+	<div class="col-md-3 col-xs-3 col-lg-3 col-sm-3">
 		<div class="form-group">
-			@Html.DropDownList("ModalityId", ViewData["Modalities"] as IEnumerable<SelectListItem>, "Select Modality", new { @class = "form-control", @style = "width:200px" })
+			@Html.TextBox("DateRange","",new { @class = "form-control datepicker",@placeholder="Select DateRange" })
 		</div>
-	</div>*@
+	</div>
+	
 </div>
 
 <div class="table-responsive">
@@ -174,21 +205,23 @@
 		<tbody>
 			@if (Model.Count() > 0)
 			{
-				foreach (var item in Model.GroupBy(x => new { x.ClientId , x.DICOMStudyID}))
+				foreach (var item in Model)
 				{
-					var data = item.FirstOrDefault();
-			<tr>
-				<td><input type="checkbox"  value="@data.DICOMStudyID" class="chkStudy checkbox-lg"></td>
-				<td>@data.ClientName</td>
-				<td>@data.DestinationName</td>
-				<td>@data.PatientId</td>
-				<td>@item.Count()</td>
-				<td>@data.Modality</td>
-				<td>@data.CreatedOn</td>
-				<td>@data.ScanDate</td>
-				<td>@data.DICOMStudyID</td>
-				<td></td>
-			</tr>
+			        <tr>
+			        	<td><input type="checkbox"  value="@item.DICOMStudyID" class="chkStudy checkbox-lg"></td>
+			        	<td>@item.ClientName</td>
+			        	<td>@item.DestinationName</td>
+			        	<td>@item.PatientId</td>
+			        	<td>@item.ImageCount</td>
+			        	<td>@item.Modality</td>
+			        	<td>@item.CreatedOn</td>
+			        	<td>@item.ScanDate</td>
+			        	<td>@item.DICOMStudyID</td>
+						<td>
+							<div><b>Success : </b>@item.SuccessCount</div>
+							<div><b>Failed : </b>@item.FailureCount</div>
+						</td>
+			        </tr>
 				}
 			}
 			else

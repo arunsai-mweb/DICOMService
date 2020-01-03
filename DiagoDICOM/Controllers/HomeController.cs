@@ -10,7 +10,8 @@ using DiagoDICOM.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using DiagoDICOM.ActionFilters;
 using Microsoft.AspNetCore.Http;
-
+using System.IO.Compression;
+using System.IO;
 namespace DiagoDICOM.Controllers
 {
 	
@@ -97,6 +98,11 @@ namespace DiagoDICOM.Controllers
 		{
 			Clients cld = new Clients();
 			ViewBag.Clients = da.GetClients();
+			ViewData["Destinations"] = da.GetDestinations().Select(i => new SelectListItem
+			{
+				Text = i.DestinationName,
+				Value = i.DestinationId.ToString()
+			}).ToList();
 			if (clientId != null)
 			{
 				cld = da.GetClientById(clientId);
@@ -157,6 +163,16 @@ namespace DiagoDICOM.Controllers
 
 		public IActionResult Logs()
 		{
+			ViewData["Destinations"] = da.GetDestinations().Select(i => new SelectListItem
+			{
+				Text = i.DestinationName,
+				Value = i.DestinationName
+			}).ToList();
+			ViewData["Clients"] = da.GetClients().Select(i => new SelectListItem
+			{
+				Text = i.ClientName,
+				Value = i.ClientName
+			}).ToList();
 			var data = da.GetLogs();
 			return View("Logs", data);
 		}
@@ -166,6 +182,92 @@ namespace DiagoDICOM.Controllers
 		{
 			da.DeleteStudies(studyIds);
 			return Json("Success");
+		}
+
+
+		[HttpPost]
+		public IActionResult DeleteLogs(string logIds)
+		{
+			da.DeleteLogs(logIds);
+			return Json("Success");
+		}
+
+		public IActionResult Download(string app)
+		{
+			ViewBag.App = app;
+			if (app == "Client")
+			{
+				ViewData["Clients"] = da.GetClients().Select(i => new SelectListItem
+				{
+					Text = i.ClientId.ToString(),
+					Value = i.ClientId.ToString()
+				}).ToList();
+			}
+			else
+			{
+				ViewData["Destinations"] = da.GetDestinations().Select(i => new SelectListItem
+				{
+					Text = i.DestinationId.ToString(),
+					Value = i.DestinationId.ToString()
+				}).ToList();
+			}
+			return PartialView("Download");
+		}
+
+		public IActionResult DownLoadClientApp(string ClientId)
+		{
+			string startPath = AppUser.WebRootPath + "\\ClientApp";
+			var configFile = startPath + "\\Application\\ClientConfigFile.txt";
+			var cTox = System.IO.File.ReadAllText(configFile);
+			cTox = cTox.Replace("ClientIdValue", ClientId);
+			System.IO.File.WriteAllText(configFile, cTox);
+			string zipPath = AppUser.WebRootPath + "\\ZIP";
+			foreach (FileInfo f in new DirectoryInfo(zipPath).GetFiles("*.zip"))
+			{
+				f.Delete();
+			}
+			var zipFilePath = AppUser.WebRootPath + "\\ZIP\\ClientApplication.zip";
+			ZipFile.CreateFromDirectory(startPath, zipFilePath, CompressionLevel.Fastest, true);
+
+			var xToc = System.IO.File.ReadAllText(configFile);
+			xToc = xToc.Replace(ClientId,"ClientIdValue");
+			System.IO.File.WriteAllText(configFile, xToc);
+
+			const string contentType = "application/zip";
+			HttpContext.Response.ContentType = contentType;
+			var result = new FileContentResult(System.IO.File.ReadAllBytes(zipFilePath), contentType)
+			{
+				FileDownloadName = "ClientApp_" + ClientId +".zip"
+			};
+			return result;
+		}
+
+		public IActionResult DownLoadDestinationApp(string DestinationId)
+		{
+			string startPath = AppUser.WebRootPath + "\\DestinationApp";
+			var configFile = startPath + "\\Application\\DestinationConfigFile.txt";
+			var cTox = System.IO.File.ReadAllText(configFile);
+			cTox = cTox.Replace("DestinationIdValue", DestinationId);
+			System.IO.File.WriteAllText(configFile, cTox);
+			string zipPath = AppUser.WebRootPath + "\\ZIP";
+			foreach (FileInfo f in new DirectoryInfo(zipPath).GetFiles("*.zip"))
+			{
+				f.Delete();
+			}
+			var zipFilePath = AppUser.WebRootPath + "\\ZIP\\DestinationApp.zip";
+			ZipFile.CreateFromDirectory(startPath, zipFilePath, CompressionLevel.Fastest, true);
+			const string contentType = "application/zip";
+
+			var xToc = System.IO.File.ReadAllText(configFile);
+			xToc = xToc.Replace(DestinationId,"DestinationIdValue");
+			System.IO.File.WriteAllText(configFile, xToc);
+
+			HttpContext.Response.ContentType = contentType;
+			var result = new FileContentResult(System.IO.File.ReadAllBytes(zipFilePath), contentType)
+			{
+				FileDownloadName = "DestinationApp_" + DestinationId + ".zip"
+			};
+			return result;
 		}
 	}
 }

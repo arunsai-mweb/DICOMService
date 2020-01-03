@@ -1,0 +1,67 @@
+﻿
+@model DiagoDICOM.Models.Destination
+@{
+	var app = ViewBag.App;
+}
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery/dist/bootstrap.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/js/Dialogs.js"></script>
+<form asp-action="DownloadClientApp" id="frmDownload">
+	<div class="form-group row">
+		@if (app == "Client")
+		{
+			<label asp-for="ClientId" class="control-label col-sm-3">Client Id:</label>
+			<div class="col-sm-6">
+				@Html.DropDownList("ClientId", ViewData["Clients"] as IEnumerable<SelectListItem>, "Select", new { @class = "form-control", @style = "width:200px" })
+			</div>
+		}
+		else
+		{
+			<label asp-for="DestinationId" class="control-label col-sm-4">Destinaton Id:</label>
+			<div class="col-sm-8">
+				@Html.DropDownList("DestinationId", ViewData["Destinations"] as IEnumerable<SelectListItem>, "Select", new { @class = "form-control", @style = "width:200px" })
+			</div>
+		}
+	</div>
+	<div class="form-group pull-right" style="margin-top:10px">
+		<input type="submit" value="Download" id="btnDownload" class="btn btn-success" />
+	</div>
+</form>
+
+<script>
+
+	$(function () {
+		if ('@app' == "Destination") {
+			$('#frmDownload').attr("action", "/Home/DownLoadDestinationApp")
+		}
+		else {
+			$('#frmDownload').attr("action", "/Home/DownLoadClientApp")
+		}
+	})
+
+	var validator = $("#frmDownload").validate({
+		errorClass: "errors",
+		rules: {
+			"ClientId": {
+				required: true,
+			},
+			"DestinationId": {
+				required: true,
+			}
+		},
+		messages: {
+			"ClientId": "Required",
+			"DestinationId": "Required",
+		}
+	})
+	$('#btnDownload').click(function (e) {
+		if (validator.checkForm())
+		{
+			$('.close').click();
+		}
+	});
+</script>

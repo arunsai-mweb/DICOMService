@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<DiagoDICOM.Models.Logs>
 
 @{
-
+	ViewData["Title"] = "Logs";
 }
 
 <script>
@@ -27,7 +27,36 @@
 				searchPlaceholder: "Search..."
 			},
 		});
+
+		var dataTable = $('#tblLogs').dataTable();
+		$("#searchbox").keyup(function () {
+			dataTable.fnFilter(this.value);
+		});
+
+		var table = $('#tblCases').DataTable();
+		$('#ClientId').on('change', function () {
+			table.columns(2).search(this.value).draw();
+		});
+		$('#DestinationId').on('change', function () {
+			table.columns(3).search(this.value).draw();
+		});
 	});
+
+	function DeleteLogs(e)
+	{
+		if (confirm("Are you sure to delete the selected logs")) {
+			var array = [];
+			$('.chkLog:checkbox:checked').each(function () {
+				array.push($(this).val());
+			})
+			$.post('@Url.Action("DeleteLogs","Home")', { logIds: array.join() }, function () {
+				window.location.reload();
+		    })
+		}
+		else {
+			return false;
+		}
+	}
 </script>
 <style>
 
@@ -39,7 +68,21 @@
 			vertical-align: top;
 		}
 </style>
-
+<div class="row">
+	<div class="col-md-2 col-xs-2 col-lg-2 col-sm-2">
+		<input type="text" class="form-control" placeholder="Search" id="searchbox" style="width:200px">
+	</div>
+	<div class="col-md-2 col-xs-2 col-lg-2 col-sm-2">
+		<div class="form-group">
+			@Html.DropDownList("DestinationId", ViewData["Destinations"] as IEnumerable<SelectListItem>, "Select Destination", new { @class = "form-control", @style = "width:200px" })
+		</div>
+	</div>
+	<div class="col-md-2 col-xs-2 col-lg-2 col-sm-2">
+		<div class="form-group">
+			@Html.DropDownList("ClientId", ViewData["Clients"] as IEnumerable<SelectListItem>, "Select Client", new { @class = "form-control", @style = "width:200px" })
+		</div>
+	</div>
+</div>
 	<div class="">
 		<table class="table table-bordered table-hover" id="tblLogs" style="width:100%">
 			<thead>
@@ -52,9 +95,10 @@
 					{
 						<th></th>
 					}
-					<th>Image Id</th>
-					<th>Log Level</th>
-					<th>Sent On</th>
+					<th>SOP Instance UID</th>
+					<th>Client Name</th>
+					<th>Destination Name</th>
+					<th>Created On</th>
 					<th>Info</th>
 				</tr>
 			</thead>
@@ -64,7 +108,8 @@
 				<tr>
 					<td><input type="checkbox" value="@item.LogId" class="chkLog checkbox-lg"></td>
 					<td>@item.Value</td>
-					<td>@item.LogLevel</td>
+					<td>@item.ClientName</td>
+					<td>@item.DestinationName</td>
 					<td>@item.CreatedOn</td>
 					<td class="wrdBrk">@item.ExceptionDetails</td>
 				</tr>

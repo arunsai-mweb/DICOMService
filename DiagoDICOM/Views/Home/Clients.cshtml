@@ -4,7 +4,7 @@
 @{
 	ViewData["Title"] = "Clients";
 }
-<script src="~/js/Dialogs.js"></script>
+
 <script>
 	var getUrl = window.location;
 	var baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
@@ -58,7 +58,11 @@
 				null,
 				null,
 				null,
-				{ "width": "20%" },
+				null,
+				null,
+				null,
+				null,
+				{ "width": "10%" },
 			],
 			order: [1, 'asc']
 		});
@@ -102,8 +106,6 @@
 			var div = $(html);
 			$.showDialog("Add Client Rule", div, function () {
 			}, function () {
-				$(".modal-dialog").removeClass("modal-lg");
-				$(".modal-content").attr("style", "width:500px")
 			});
 		});
 	}
@@ -113,8 +115,6 @@
 			var div = $(html);
 			$.showDialog("Edit Client Rule", div, { backdrop: 'static' }, function () {
 			}, function () {
-				$(".modal-dialog").removeClass("modal-lg");
-				$(".modal-content").attr("style", "width:500px")
 			});
 		});
 	}
@@ -135,8 +135,6 @@
 			var div = $(html);
 			$.showDialog("Add Client", div, { backdrop: 'static' }, function () {
 			}, function () {
-				$(".modal-dialog").removeClass("modal-lg");
-				$(".modal-content").attr("style","width:450px")
 			});
 		});
 	}
@@ -146,8 +144,6 @@
 			var div = $(html);
 			$.showDialog("Edit Client", div, { backdrop: 'static' }, function () {
 			}, function () {
-				$(".modal-dialog").removeClass("modal-lg");
-				$(".modal-content").attr("style","width:450px")
 			});
 		});
 	}
@@ -167,7 +163,14 @@
 		})
 	}
 
-
+	function Download(e)
+	{
+		$.get('@Url.Action("Download","Home")', { app: "Client" }, function (html) {
+		var div = $(html);
+		$.showDialog("Download Client App", div, { backdrop: 'static' }, function () {
+		});
+	  })
+	}
 </script>
 
 <style>
@@ -184,7 +187,8 @@
 	<input type="text" class="form-control" style="width:20%;height:10%" placeholder="Search" id="searchbox">
 </div>
 <div align="right">
-	<button class="btn btn-primary" style="color:#fff !important" onclick="Add(this)"><i class="fa fa-plus"></i> Add</button>
+	<button class="btn btn-primary btn-sm" style="color:#fff !important" onclick="Add(this)"><i class="fa fa-plus"></i> Add</button>
+	<button class="btn btn-secondary btn-sm" style="color:#fff !important" onclick="Download(this)"><i class="fa fa-download"></i> Download Client App</button>
 </div>
 <div class="table-responsive text-nowrap">
 	<table id="tblClients" class="table table-bordered table-hover" style="width:100%">
@@ -193,6 +197,10 @@
 				<th></th>
 				<th>Client Id</th>
 				<th>Client Name</th>
+				<th>Ip Address</th>
+				<th>AE Title</th>
+				<th>Port</th>
+				<th>Default Destination</th>
 				<th style="text-align:center">Status</th>
 				<th>Action</th>
 			</tr>
@@ -202,32 +210,36 @@
 			{
 				foreach (var item in Model)
 				{
-			<tr class="trClient">
-				<td><i class="fa fa-minus-circle"></i></td>
-				<td data-clientId="@item.ClientId" class="tdId">@item.ClientId</td>
-				<td data-clientName="@item.ClientName" class="tdName">@item.ClientName</td>
-				@if (item.Status)
-				{
-					<td><div align="center"><button class="btn-round btn-success" title="Active"></button></div></td>
-				}
-				else
-				{
-					<td><div align="center"><button class="btn-round btn-danger" title="InActive"></button></div></td>
-				}
-				<td>
-					<button class="btn btn-info btn-sm" title="Edit" id="btnDelete" onclick="Edit(this)" data-clientId="@item.ClientId">
-						<i class="fa fa-edit"></i>
-					</button>
-					<button class="btn btn-danger btn-sm" title="Delete" id="btnDelete" onclick="Delete(this)" data-clientId="@item.ClientId">
-						<i class="fa fa-trash"></i>
-					</button>
-					<button class="btn btn-primary btn-sm" title="Add Client Rule" id="btnAddClientRule" onclick="AddClientRule(this)" data-clientId="@item.ClientId">
-						<i class="fa fa-plus"></i>
-					</button>
-				</td>
-			</tr>
+					<tr class="trClient">
+						<td><i class="fa fa-minus-circle"></i></td>
+						<td data-clientId="@item.ClientId" class="tdId">@item.ClientId</td>
+						<td data-clientName="@item.ClientName" class="tdName">@item.ClientName</td>
+						<td>@item.IpAddress</td>
+						<td>@item.AETitle</td>
+						<td>@item.Port</td>
+						<td>@item.DestinationName</td>
+						@if (item.Status)
+						{
+							<td><div align="center"><button class="btn-round btn-success" title="Active"></button></div></td>
+						}
+						else
+						{
+							<td><div align="center"><button class="btn-round btn-danger" title="InActive"></button></div></td>
+						}
+						<td>
+							<button class="btn btn-info btn-sm" title="Edit" id="btnDelete" onclick="Edit(this)" data-clientId="@item.ClientId">
+								<i class="fa fa-edit"></i>
+							</button>
+							<button class="btn btn-danger btn-sm" title="Delete" id="btnDelete" onclick="Delete(this)" data-clientId="@item.ClientId">
+								<i class="fa fa-trash"></i>
+							</button>
+							<button class="btn btn-primary btn-sm" title="Add Client Rule" id="btnAddClientRule" onclick="AddClientRule(this)" data-clientId="@item.ClientId">
+								<i class="fa fa-plus"></i>
+							</button>
+						</td>
+					</tr>
 				}
 			}
 		</tbody>
 	</table>
-	</div>
+</div>
