@@ -25,7 +25,8 @@ namespace DiagoDICOM.Data
 				{ "EmailId", user.EmailId },
 				{ "Password", user.Password },
 				{ "IsInitial", user.IsInitial },
-				{ "IsChangePassword",user.IsChangePassword }
+				{ "IsChangePassword",user.IsChangePassword },
+				{ "IsForgotPassword",user.IsForgotPassword}
 			};
 					var data = connection.QueryFirst<Users>("CheckIsExistingUser", new DynamicParameters(parameters), commandType: CommandType.StoredProcedure);
 					return data;

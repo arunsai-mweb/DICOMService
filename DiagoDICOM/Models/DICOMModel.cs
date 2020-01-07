@@ -114,7 +114,7 @@ namespace DiagoDICOM.Models
 		{
 			var path = Path.Combine(AppUser.WebRootPath, "Logs", (DateTime.Now.Year - 1).ToString());
 			if (Directory.Exists(path))
-				Directory.Delete(path);
+				Directory.Delete(path,true);
 		}
 
 	}

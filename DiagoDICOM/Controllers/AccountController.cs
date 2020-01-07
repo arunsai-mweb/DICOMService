@@ -34,7 +34,8 @@ namespace DiagoDICOM.Controllers
 		{
 			
 				var context = _httpContextAccessor.HttpContext;
-				Users userData = null;
+
+			Users userData = null;
 				var message = string.Empty;
 				if (!user.IsChangePassword && !user.IsForgotPassword)
 				{
@@ -59,7 +60,11 @@ namespace DiagoDICOM.Controllers
 					userData = da.CheckIsExistingUser(user);
 					if (userData == null)
 					{
-						message = "Invalid User or Password";
+					    if (context.Session.GetString("ChangePassword") == "true")
+					    {
+					    	ViewBag.IsChangePassword = true;
+					    }
+					    message = "Invalid User or Password";
 						ViewBag.Message = message;
 						return View();
 					}
@@ -75,6 +80,10 @@ namespace DiagoDICOM.Controllers
 					userData = da.CheckIsExistingUser(user);
 					if (userData == null)
 					{
+					if (context.Session.GetString("ForgotPassword") == "true")
+					{
+						ViewBag.IsForgotPassword = true;
+					}
 						message = "Invalid User or Password";
 						ViewBag.Message = message;
 						return View();
@@ -88,7 +97,9 @@ namespace DiagoDICOM.Controllers
 				}
 
 
-				context.Session.SetString("UserId", userData.UserId.ToString());
+			    context.Session.SetString("ForgotPassword", "");			    
+			    context.Session.SetString("ChangePassword", "");
+			    context.Session.SetString("UserId", userData.UserId.ToString());
 				context.Session.SetString("UserName", userData.UserName.ToString());
 				return RedirectToAction("Index", "Home");
 			
@@ -107,14 +118,17 @@ namespace DiagoDICOM.Controllers
 
 		public IActionResult ChangePassword()
 		{
+			var context = _httpContextAccessor.HttpContext;
+			context.Session.SetString("ChangePassword", "true");
 			ViewBag.IsChangePassword = true;
 			return View("LogOn");
 		}
 		public IActionResult ForgotPassword()
 		{
+			var context = _httpContextAccessor.HttpContext;
 			ViewBag.IsForgotPassword = true;
 			AppUser.UserName = string.Empty;
-			
+			context.Session.SetString("ForgotPassword","true");
 			return View("LogOn");
 		}
 	}
