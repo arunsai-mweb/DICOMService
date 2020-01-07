@@ -10,6 +10,12 @@
 
 	var getUrl = window.location;
 	var baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
+
+	function formatDate(date) {
+		debugger;
+		return date.split("-")[0] + "-" + parseInt(date.split("-")[1]) - 1 + "-" + date.split("-")[2]
+	}
+
 	$(document).ready(function () {
 		$('.datepicker').daterangepicker({
 			autoUpdateInput: false,
@@ -19,12 +25,13 @@
 		$('.datepicker').on('apply.daterangepicker', function (ev, picker) {
 			var start = picker.startDate;
 			var end = picker.endDate;
-
+			$(this).val(start.format('YYYY-MM-DD') + '-' + end.format('YYYY-MM-DD'));
 			$.fn.dataTable.ext.search.push(
 				function (settings, data, dataIndex) {
+					debugger;
 					var min = start;
 					var max = end;
-					var startDate = new Date(data[1]);
+					var startDate = new Date(data[7].split(" ")[0]);
 
 					if (min == null && max == null) {
 						return true;
@@ -46,6 +53,7 @@
 		});
 		$('.datepicker').on('cancel.daterangepicker', function (ev, picker) {
 			$(this).val('');
+			table.draw();
 		});
 		$('.multilinks > li > a').removeClass('active');
 		$('.multilinks > li > a.tab3').addClass('active');
@@ -214,7 +222,7 @@
 			        	<td>@item.PatientId</td>
 			        	<td>@item.ImageCount</td>
 			        	<td>@item.Modality</td>
-			        	<td>@item.CreatedOn</td>
+			        	<td>@item.CreatedOn.ToString("yyyy-MM-dd HH-MM-ss")</td>
 			        	<td>@item.ScanDate</td>
 			        	<td>@item.DICOMStudyID</td>
 						<td>

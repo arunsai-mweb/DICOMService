@@ -37,7 +37,7 @@ namespace DiagoDICOM.Controllers
         {
 
 			if (!String.IsNullOrEmpty(cs.ScanDate) && !String.IsNullOrEmpty(cs.ScanTime))
-				cs.ScanDate = Convert.ToString(DateTime.Parse(DateTime.ParseExact((cs.ScanDate + cs.ScanTime).Substring(0, 12), "yyyyMMddHHmm", null).ToString("yyyy-MM-dd hh:mm tt")));
+				cs.ScanDate = Convert.ToString(DateTime.Parse(DateTime.ParseExact((cs.ScanDate + cs.ScanTime).Substring(0, 12), "yyyyMMddHHmm", null).ToString("yyyy-MM-dd hh:mm tt")).ToString("yyyy-MM-dd hh:mm:ss"));
 			var modal = da.SaveImageStudy(cs);
 			if (modal.DestinationId != 0)
 			{
