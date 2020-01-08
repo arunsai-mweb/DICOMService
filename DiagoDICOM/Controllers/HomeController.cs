@@ -20,6 +20,9 @@ namespace DiagoDICOM.Controllers
 	{
 		DataAccess da = new DataAccess();
 		private static IHttpContextAccessor _httpContextAccessor;
+
+		public object DICOMModals { get; private set; }
+
 		public HomeController(IHttpContextAccessor httpContextAccessor)
 		{
 			_httpContextAccessor = httpContextAccessor;
@@ -161,7 +164,7 @@ namespace DiagoDICOM.Controllers
 			return Json(da.GetStudyStatus(studyId,clientId));
 		}
 
-		public IActionResult Logs()
+		public IActionResult GetLogs()
 		{
 			ViewData["Destinations"] = da.GetDestinations().Select(i => new SelectListItem
 			{
@@ -214,6 +217,7 @@ namespace DiagoDICOM.Controllers
 			return PartialView("Download");
 		}
 
+		[HttpPost]
 		public IActionResult DownLoadClientApp(string ClientId)
 		{
 			string startPath = AppUser.WebRootPath + "\\ClientApp";
@@ -242,6 +246,7 @@ namespace DiagoDICOM.Controllers
 			return result;
 		}
 
+		[HttpPost]
 		public IActionResult DownLoadDestinationApp(string DestinationId)
 		{
 			string startPath = AppUser.WebRootPath + "\\DestinationApp";
@@ -250,6 +255,8 @@ namespace DiagoDICOM.Controllers
 			cTox = cTox.Replace("DestinationIdValue", DestinationId);
 			System.IO.File.WriteAllText(configFile, cTox);
 			string zipPath = AppUser.WebRootPath + "\\ZIP";
+
+			Logs.WriteToLogFile(zipPath);
 			foreach (FileInfo f in new DirectoryInfo(zipPath).GetFiles("*.zip"))
 			{
 				f.Delete();
@@ -257,7 +264,7 @@ namespace DiagoDICOM.Controllers
 			var zipFilePath = AppUser.WebRootPath + "\\ZIP\\DestinationApp.zip";
 			ZipFile.CreateFromDirectory(startPath, zipFilePath, CompressionLevel.Fastest, true);
 			const string contentType = "application/zip";
-
+			Logs.WriteToLogFile(zipFilePath);
 			var xToc = System.IO.File.ReadAllText(configFile);
 			xToc = xToc.Replace(DestinationId,"DestinationIdValue");
 			System.IO.File.WriteAllText(configFile, xToc);

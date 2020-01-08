@@ -69,8 +69,7 @@
 	{
 		$.get('@Url.Action("Download","Home")', { app: "Destination" }, function (html) {
 			var div = $(html);
-			$.showDialog("Download Destination App", div, { }, function () {
-			
+			$.showDialog("Download Destination App", div, { }, function () {			
 			});
 		});
 	}

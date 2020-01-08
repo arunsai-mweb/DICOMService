@@ -4,7 +4,7 @@
 	Layout = null;
 }
 
-<form asp-action="SaveClient" id="frmSaveClient">
+<form asp-action="SaveClient" asp-controller="Home" id="frmSaveClient">
 	<div class="form-group row">
 		<label asp-for="ClientId" class="control-label col-sm-4">Client Id:</label>
 		<div class="col-sm-8">
@@ -59,9 +59,32 @@
 			$('#ClientId').val('@Model.ClientId')
 		}
 	})
+	
 
 	$('#btnSaveClient').click(function (e) {
+
+		var validator = $("#frmSaveClient").validate({
+			errorClass: "errors",
+			rules: {
+				"ClientId": {
+					required: true,
+				},
+				"ClientName": {
+					required: true,
+				},
+				"DestinationId": {
+					required:true
+				}
+			},
+			messages: {
+				"ClientId": "Required",
+				"ClientName": "Required",
+				"DestinationId":"Required"
+			}
+		})
+
 		var mode = $('.modal-title').text().split(" ")[0];
+		e.preventDefault();
 		var hasMatch = false;
 		for (var index = 0; index < data.length; ++index) {
 			var client = data[index];
@@ -75,29 +98,11 @@
 			alert("ClientId already Exists");
 			return false;
 		}
-		$("#frmSaveClient").submit(function (e) {
-		}).validate({
-				errorClass: "errors",
-				rules: {
-					"ClientId": {
-						required: true,
-					},
-					"ClientName": {
-						required: true,
-					},
-					"DestinationId": {
-						required: true,
-					},
-				},
-				messages: {
-					"ClientId": "Required",
-					"ClientName": "Required",
-					"DestinationId": "Required"
-			},
-			submitHandler: function (form) {
-				$("#frmSaveClient").submit();
-				return false;
-			}
-		})
+		if (validator.valid()) {
+			$('#frmSaveClient').submit();
+		}
+		else {
+			return false;
+		}
 	})
 </script>

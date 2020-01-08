@@ -4,13 +4,8 @@
 	var app = ViewBag.App;
 }
 
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/lib/jquery/dist/bootstrap.min.js"></script>
-<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-<script src="~/js/Dialogs.js"></script>
-<form asp-action="DownloadClientApp" id="frmDownload">
+
+<form method="post" id="frmDownload">
 	<div class="form-group row">
 		@if (app == "Client")
 		{
@@ -28,7 +23,7 @@
 		}
 	</div>
 	<div class="form-group pull-right" style="margin-top:10px">
-		<input type="submit" value="Download" id="btnDownload" class="btn btn-success" />
+		<input type="button" value="Download" id="btnDownload" class="btn btn-success" />
 	</div>
 </form>
 
@@ -41,27 +36,30 @@
 		else {
 			$('#frmDownload').attr("action", "/Home/DownLoadClientApp")
 		}
+		var validator = $("#frmDownload").validate({
+			errorClass: "errors",
+			rules: {
+				"ClientId": {
+					required: true,
+				},
+				"DestinationId": {
+					required: true,
+				}
+			},
+			messages: {
+				"ClientId": "Required",
+				"DestinationId": "Required",
+			}
+		})
+
+		$('#btnDownload').click(function (e) {
+			if (validator.checkForm()) {
+				$('#frmDownload').submit();
+				$('.close').click();
+			}
+		});
 	})
 
-	var validator = $("#frmDownload").validate({
-		errorClass: "errors",
-		rules: {
-			"ClientId": {
-				required: true,
-			},
-			"DestinationId": {
-				required: true,
-			}
-		},
-		messages: {
-			"ClientId": "Required",
-			"DestinationId": "Required",
-		}
-	})
-	$('#btnDownload').click(function (e) {
-		if (validator.checkForm())
-		{
-			$('.close').click();
-		}
-	});
+
+	
 </script>
