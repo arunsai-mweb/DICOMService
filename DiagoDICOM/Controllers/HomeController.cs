@@ -220,61 +220,71 @@ namespace DiagoDICOM.Controllers
 		[HttpPost]
 		public IActionResult DownLoadClientApp(string ClientId)
 		{
-			string startPath = AppUser.WebRootPath + "\\ClientApp";
-			var configFile = startPath + "\\Application\\ClientConfigFile.txt";
-			var cTox = System.IO.File.ReadAllText(configFile);
-			cTox = cTox.Replace("ClientIdValue", ClientId);
-			System.IO.File.WriteAllText(configFile, cTox);
-			string zipPath = AppUser.WebRootPath + "\\ZIP";
-			foreach (FileInfo f in new DirectoryInfo(zipPath).GetFiles("*.zip"))
+			try
 			{
-				f.Delete();
+				string startPath = AppUser.WebRootPath + "\\ClientApp";
+				var configFile = startPath + "\\Application\\ClientConfigFile.txt";
+				var cTox = System.IO.File.ReadAllText(configFile);
+				cTox = cTox.Replace("ClientIdValue", ClientId);
+				System.IO.File.WriteAllText(configFile, cTox);
+				string zipPath = AppUser.WebRootPath + "\\ZIP";
+				foreach (FileInfo f in new DirectoryInfo(zipPath).GetFiles("*.zip"))
+				{
+					f.Delete();
+				}
+				var zipFilePath = AppUser.WebRootPath + "\\ZIP\\ClientApplication.zip";
+				ZipFile.CreateFromDirectory(startPath, zipFilePath, CompressionLevel.Fastest, true);
+
+				var xToc = System.IO.File.ReadAllText(configFile);
+				xToc = xToc.Replace(ClientId, "ClientIdValue");
+				System.IO.File.WriteAllText(configFile, xToc);
+
+				const string contentType = "application/zip";
+				HttpContext.Response.ContentType = contentType;
+				var result = new FileContentResult(System.IO.File.ReadAllBytes(zipFilePath), contentType)
+				{
+					FileDownloadName = "ClientApp_" + ClientId + ".zip"
+				};
+				return result;
 			}
-			var zipFilePath = AppUser.WebRootPath + "\\ZIP\\ClientApplication.zip";
-			ZipFile.CreateFromDirectory(startPath, zipFilePath, CompressionLevel.Fastest, true);
-
-			var xToc = System.IO.File.ReadAllText(configFile);
-			xToc = xToc.Replace(ClientId,"ClientIdValue");
-			System.IO.File.WriteAllText(configFile, xToc);
-
-			const string contentType = "application/zip";
-			HttpContext.Response.ContentType = contentType;
-			var result = new FileContentResult(System.IO.File.ReadAllBytes(zipFilePath), contentType)
+			catch (Exception ex)
 			{
-				FileDownloadName = "ClientApp_" + ClientId +".zip"
-			};
-			return result;
+				return Json(ex == null ? "" : ex.ToString());
+			}
 		}
 
 		[HttpPost]
 		public IActionResult DownLoadDestinationApp(string DestinationId)
 		{
-			string startPath = AppUser.WebRootPath + "\\DestinationApp";
-			var configFile = startPath + "\\Application\\DestinationConfigFile.txt";
-			var cTox = System.IO.File.ReadAllText(configFile);
-			cTox = cTox.Replace("DestinationIdValue", DestinationId);
-			System.IO.File.WriteAllText(configFile, cTox);
-			string zipPath = AppUser.WebRootPath + "\\ZIP";
-
-			Logs.WriteToLogFile(zipPath);
-			foreach (FileInfo f in new DirectoryInfo(zipPath).GetFiles("*.zip"))
+			try
 			{
-				f.Delete();
+				string startPath = AppUser.WebRootPath + "\\DestinationApp";
+				var configFile = startPath + "\\Application\\DestinationConfigFile.txt";
+				var cTox = System.IO.File.ReadAllText(configFile);
+				cTox = cTox.Replace("DestinationIdValue", DestinationId);
+				System.IO.File.WriteAllText(configFile, cTox);
+				string zipPath = AppUser.WebRootPath + "\\ZIP";
+				foreach (FileInfo f in new DirectoryInfo(zipPath).GetFiles("*.zip"))
+				{
+					f.Delete();
+				}
+				var zipFilePath = AppUser.WebRootPath + "\\ZIP\\DestinationApp.zip";
+				ZipFile.CreateFromDirectory(startPath, zipFilePath, CompressionLevel.Fastest, true);
+				const string contentType = "application/zip";
+				var xToc = System.IO.File.ReadAllText(configFile);
+				xToc = xToc.Replace(DestinationId, "DestinationIdValue");
+				System.IO.File.WriteAllText(configFile, xToc);
+				HttpContext.Response.ContentType = contentType;
+				var result = new FileContentResult(System.IO.File.ReadAllBytes(zipFilePath), contentType)
+				{
+					FileDownloadName = "DestinationApp_" + DestinationId + ".zip"
+				};
+				return result;
 			}
-			var zipFilePath = AppUser.WebRootPath + "\\ZIP\\DestinationApp.zip";
-			ZipFile.CreateFromDirectory(startPath, zipFilePath, CompressionLevel.Fastest, true);
-			const string contentType = "application/zip";
-			Logs.WriteToLogFile(zipFilePath);
-			var xToc = System.IO.File.ReadAllText(configFile);
-			xToc = xToc.Replace(DestinationId,"DestinationIdValue");
-			System.IO.File.WriteAllText(configFile, xToc);
-
-			HttpContext.Response.ContentType = contentType;
-			var result = new FileContentResult(System.IO.File.ReadAllBytes(zipFilePath), contentType)
+			catch (Exception ex)
 			{
-				FileDownloadName = "DestinationApp_" + DestinationId + ".zip"
-			};
-			return result;
+				return Json(ex == null ? "" : ex.ToString());
+			}
 		}
 	}
 }

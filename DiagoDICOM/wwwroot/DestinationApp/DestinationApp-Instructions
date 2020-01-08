@@ -3,17 +3,17 @@ Instructions for the installation of DICOM Destination Application
 1. Extract the files
 
 2. Open command prompt in admin mode and create a new Folder with any name using following command
-          mkdir D:/DICOMService
+          mkdir D:\FolderName
 
 3. Copy all the extracted folder contents into the newly created folder 
 
 2. Check the system if it is 32 bit or 64 bit OS
      If the system is 32 bit, copy 
-   	    Install 32 Bit VC_redist.x86 from D:\DestinationApp\Packages\VC 
+   	    Install 32 Bit VC_redist.x86 from D:\FolderName\Packages\VC 
 	   
 	    Open 32 Bit OpenSSL Folder
 	   
-	    Open D:\DestinationApp\Application\OpenSSL\bin folder.
+	    Open D:\FolderName\Application\OpenSSL\bin folder.
    
         Run openssl.exe in administation mode.
         
@@ -57,14 +57,14 @@ Instructions for the installation of DICOM Destination Application
 	     		 
         Now a pair of server.key and server.crt will be generated.
         
-        cut or copy both the files and paste it outside the folder i.e: Copy in D:\DestinationApp\Application
+        cut or copy both the files and paste it outside the folder i.e: Copy in D:\FolderName\Application
         
         Along with the server.key and server.crt files keep the client.crt file which is generated at the ClinetApp Side in D:\DestinationApp\Application
 	   
-	   	64 Bit\nssm.exe from D:\DestinationApp\Packages\NSSM\win64 folder 
+	   	64 Bit\nssm.exe from D:\FolderName\Packages\NSSM\win64 folder 
 	  
 
-3. Open D:\DestinationApp\Application\DestinationConfigfile
+3. Open D:\FolderName\Application\DestinationConfigfile
 
    -> Set the Configurations that are required to run the service
    
@@ -84,26 +84,26 @@ Instructions for the installation of DICOM Destination Application
 
     In User Variables
 
-    If PATH is available Edit that PATH and add D:\DestinationApp\Application\NSSM\win32 or win64
+    If PATH is available Edit that PATH and add D:\FolderName\Application\NSSM\win32 or win64
 
     If PATH is not available Click on NEW 
 
-    Provide Variable Name as PATH and Variable Value as  D:\DestinationApp\Application\NSSM\win32 or win64 and click on OK    
+    Provide Variable Name as PATH and Variable Value as  D:\FolderName\Application\NSSM\win32 or win64 and click on OK    
     
     =============================================
 
     On Command Prompt as 'Run as Administrator'
 
-    cd D:\DestinationApp\Application\NSSM\win32 or win64
+    cd D:\FolderName\Application\NSSM\win32 or win64
 
     nssm install DestinationListener
 
     We will see one pop. 
-    Click Browse button -> Select D:\DestinationApp\Application\storescp.exe and click OK
+    Click Browse button -> Select D:\FolderName\Application\storescp.exe and click OK
 
     Paste the below arguments in the arguments textbox 
 
-    -v -aet DestinationListener 109 +tls server.key server.crt +cf client.crt -od "D:\DestinationApp\DestnationInComing"  
+    -v -aet DestinationListener 109 +tls server.key server.crt +cf client.crt -od "D:\FolderName\InComing"  
 
     Now click on InstallService
    
