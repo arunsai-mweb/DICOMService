@@ -153,8 +153,7 @@ body {
 }
 
 .active {
-	background-color: #1470af !important;
-	color: white !important;
+	border-bottom:1px solid #fff;
 }
 
 
@@ -263,4 +262,12 @@ table.dataTable thead th {
 }
 .btn {
   border-radius:0;
+}
+.nav-anch {
+	font-size: 22px;
+	font-weight: 600
+}
+.nav-menu {
+ font-size:15px;
+ font-weight:600
 }

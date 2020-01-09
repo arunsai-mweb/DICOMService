@@ -103,8 +103,6 @@
 		clients = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Clients))');
 		dest = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Destinations))');
 
-		$('.multilinks > li > a').removeClass('active');
-		$('.multilinks > li > a.tab2').addClass('active');
 
 		if ('@Model.IsPushToFolder' == 'False') {
 			$('#dvPushToFolder').hide();
@@ -126,7 +124,8 @@
 		errorClass: "errors",
 		rules: {
 			"DestinationId": {
-				required:true
+				required: true,
+				regex: "^[a-zA-Z0-9]*$"
 			},
 			"DestinationName": {
 				required: true,
@@ -157,7 +156,11 @@
 			}
 		},
 		messages: {
-
+			"DestinationId":
+			        {
+			        	required: "Required",
+			        	regex: "Alphanumeric is allowed"
+			        },
 		}
 	});
 	$('input[name="IsPushToFolder"]').change(function () {
@@ -186,7 +189,7 @@
 		var hasMatch = false;
 		for (var index = 0; index < clients.length; ++index) {
 			var c = clients[index];
-			if (c.ClientId == parseInt($('#DestinationId').val())) {
+			if (c.ClientId == $('#DestinationId').val()) {
 				hasMatch = true;
 				break;
 			}
@@ -194,7 +197,7 @@
 
 		for (var index = 0; index < dest.length; ++index) {
 			var d = dest[index];
-			if (d.DestinationId == parseInt($('#DestinationId').val())) {
+			if (d.DestinationId == $('#DestinationId').val()) {
 				hasMatch = true;
 				break;
 			}

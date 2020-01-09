@@ -6,8 +6,8 @@
 }
 <script>
 	$(document).ready(function () {
-		$('.multilinks > li > a').removeClass('active');
-		$('.multilinks > li > a.tab2').addClass('active');
+		$('.a').removeClass('active');
+		$('a.tab3').addClass('active');
 
 		$('#tblDestinations').DataTable({
 			//"bSearchable":false,
@@ -58,21 +58,14 @@
 	}
 
 	function EditDestination(e) {
-		$.get('@Url.Action("AddEditDestination","Home")', { id: parseInt($(e).data('id')) }, function (html) {
+		$.get('@Url.Action("AddEditDestination","Home")', { id: $(e).data('id') }, function (html) {
 			var div = $(html);
 			$.showDialog("Edit Destination", div, { backdrop: 'static' }, function () {
 			}, function () {
 			});
 		});
 	}
-	function Download(e)
-	{
-		$.get('@Url.Action("Download","Home")', { app: "Destination" }, function (html) {
-			var div = $(html);
-			$.showDialog("Download Destination App", div, { }, function () {			
-			});
-		});
-	}
+	
 	
 </script>
 <style>
@@ -92,9 +85,7 @@
 	<input type="text" class="form-control" style="width:20%;height:10%" placeholder="Search" id="searchbox">
 </div>
 <div align="right">
-	<button onclick="AddDestination(this)" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add</button>
-	<button class="btn btn-secondary btn-sm" onclick="Download(this)"><i class="fa fa-download"></i> Download Destination App</button>
-
+	<button onclick="AddDestination(this)" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add Destination</button>
 </div>
 
 <div class="table-responsive text-nowrap">

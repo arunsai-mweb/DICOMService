@@ -7,8 +7,54 @@
 <script>
 	$(function () {
 
-		$('.multilinks > li > a').removeClass('active');
-		$('.multilinks > li > a.tab4').addClass('active');
+
+		$('.datepicker').daterangepicker({
+			"timePicker": true,
+			ranges: {
+				'Today': [moment(), moment()],
+				'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+				'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+				'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+				'This Month': [moment().startOf('month'), moment().endOf('month')],
+				'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+			},
+			linkedCalendars: false,
+		});
+		$('.datepicker').on('apply.daterangepicker', function (ev, picker) {
+			var start = picker.startDate;
+			var end = picker.endDate;
+			$(this).val(start.format('YYYY-MM-DD') + '-' + end.format('YYYY-MM-DD'));
+			$.fn.dataTable.ext.search.push(
+				function (settings, data, dataIndex) {
+					var min = start;
+					var max = end;
+					var startDate = new Date(data[7].split(" ")[0]);
+
+					if (min == null && max == null) {
+						return true;
+					}
+					if (min == null && startDate <= max) {
+						return true;
+					}
+					if (max == null && startDate >= min) {
+						return true;
+					}
+					if (startDate <= max && startDate >= min) {
+						return true;
+					}
+					return false;
+				}
+			);
+			table.draw();
+			$.fn.dataTable.ext.search.pop();
+		});
+		$('.datepicker').on('cancel.daterangepicker', function (ev, picker) {
+			$(this).val('');
+			table.draw();
+		});
+
+		$('a').removeClass('active');
+		$('a.tab5').addClass('active');
 
 		var table = $('#tblLogs').DataTable({
 			//"bSearchable":false,
@@ -80,6 +126,11 @@
 	<div class="col-md-2 col-xs-2 col-lg-2 col-sm-2">
 		<div class="form-group">
 			@Html.DropDownList("ClientId", ViewData["Clients"] as IEnumerable<SelectListItem>, "Select Client", new { @class = "form-control", @style = "width:200px" })
+		</div>
+	</div>
+	<div class="col-md-3 col-xs-3 col-lg-3 col-sm-3">
+		<div class="form-group">
+			@Html.TextBox("DateRange", "", new { @class = "form-control datepicker", @placeholder = "Select DateRange" })
 		</div>
 	</div>
 </div>

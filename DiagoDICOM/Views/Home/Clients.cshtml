@@ -11,7 +11,7 @@
 	function format(d, clientId) {
 		var table = '<table class="table table-bordered" style="margin-left:100px;width:80%">'
 		$.ajax({
-			url: baseUrl + "Home/GetClientRules?clientId=" + parseInt(d[1]),
+			url: baseUrl + "Home/GetClientRules?clientId=" + d[1],
 			type: "Get",
 			async: false,
 			traditional: true,
@@ -32,8 +32,8 @@
 	}
 
 	$(document).ready(function () {
-		$('.multilinks > li > a').removeClass('active');
-		$('.multilinks > li > a.tab1').addClass('active');
+		$('a').removeClass('active');
+		$('a.tab2').addClass('active');
 
 		var table = $('#tblClients').DataTable({
 			//"bSearchable":false,
@@ -131,7 +131,7 @@
 	}
 
 	function Add(e) {
-		$.get('@Url.Action("AddEditClient","Home")', { clientId: parseInt($('.hdnClientId').val()) }, function (html) {
+		$.get('@Url.Action("AddEditClient","Home")', { clientId: $('.hdnClientId').val() }, function (html) {
 			var div = $(html);
 			$.showDialog("Add Client", div, { backdrop: 'static' }, function () {
 			}, function () {
@@ -140,7 +140,7 @@
 	}
 
 	function Edit(e) {
-		$.get('@Url.Action("AddEditClient","Home")', { clientId: parseInt($(e).data('clientid')) }, function (html) {
+		$.get('@Url.Action("AddEditClient","Home")', { clientId: $(e).data('clientid') }, function (html) {
 			var div = $(html);
 			$.showDialog("Edit Client", div, { backdrop: 'static' }, function () {
 			}, function () {
@@ -154,22 +154,13 @@
 		var row = table.row($(e).closest('tr'));
 		row.child().remove();
 		$(e).closest('tr').remove();
-		$.post('@Url.Action("DeleteClient","Home")', { clientId: parseInt($(e).data('clientid')) }, function(){
+		$.post('@Url.Action("DeleteClient","Home")', { clientId: $(e).data('clientid') }, function(){
 			$.notify({
 				message: "Deleted Successfully"
 			}, {
 					type: "danger"
 				});
 		})
-	}
-
-	function Download(e)
-	{
-		$.get('@Url.Action("Download","Home")', { app: "Client" }, function (html) {
-		var div = $(html);
-		$.showDialog("Download Client App", div, { backdrop: 'static' }, function () {
-		});
-	  })
 	}
 </script>
 
@@ -187,8 +178,7 @@
 	<input type="text" class="form-control" style="width:20%;height:10%" placeholder="Search" id="searchbox">
 </div>
 <div align="right">
-	<button class="btn btn-primary btn-sm" style="color:#fff !important" onclick="Add(this)"><i class="fa fa-plus"></i> Add</button>
-	<button class="btn btn-secondary btn-sm" style="color:#fff !important" onclick="Download(this)"><i class="fa fa-download"></i> Download Client App</button>
+	<button class="btn btn-primary btn-sm" style="color:#fff !important" onclick="Add(this)"><i class="fa fa-plus"></i> Add Client</button>
 </div>
 <div class="table-responsive text-nowrap">
 	<table id="tblClients" class="table table-bordered table-hover" style="width:100%">

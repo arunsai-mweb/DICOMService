@@ -101,7 +101,7 @@ namespace DiagoDICOM.Controllers
 			    context.Session.SetString("ChangePassword", "");
 			    context.Session.SetString("UserId", userData.UserId.ToString());
 				context.Session.SetString("UserName", userData.UserName.ToString());
-				return RedirectToAction("Index", "Home");
+				return RedirectToAction("Home", "Home");
 			
 		}
 

@@ -1,0 +1,29 @@
+﻿@{ 
+
+	ViewData["Title"] = "Home";
+}
+
+<script>
+	$(document).ready(function () {
+		$('.multilinks').hide();		
+	})
+
+	function Download(e, app)
+	{
+		$.get('@Url.Action("Download","Home")', { app: app }, function (html) {
+			var div = $(html);
+			$.showDialog("Download Destination App", div, { }, function () {			
+			});
+		});
+	}
+</script>
+
+<div class="container">	
+	<div align="center">
+		<h1>WELCOME TO DICOM SERVICE</h1>
+		   <div style="margin-top:50px">
+		      <button class="btn btn-secondary" onclick="Download(this,'Client')"><i class="fa fa-download"></i> Download Client App</button>
+		      <button class="btn btn-secondary" onclick="Download(this,'Destination')"><i class="fa fa-download"></i> Download Destination App</button>
+	       </div>
+	</div>
+</div>

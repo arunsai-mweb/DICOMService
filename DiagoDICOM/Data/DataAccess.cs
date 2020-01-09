@@ -72,7 +72,7 @@ namespace DiagoDICOM.Data
 				throw ex;
 			}
 		}
-		public List<Modality.LookUpType> GetModalityByClientId(int? clientId)
+		public List<Modality.LookUpType> GetModalityByClientId(string clientId)
 		{
 			try
 			{
@@ -92,7 +92,7 @@ namespace DiagoDICOM.Data
 				throw ex;
 			}
 		}
-		public List<CaseStudies> GetClientCases(int? clientId, int? destinationId = null)
+		public List<CaseStudies> GetClientCases(string clientId, string destinationId = null)
 		{
 			try
 			{
@@ -113,7 +113,7 @@ namespace DiagoDICOM.Data
 				throw ex;
 			}
 		}
-		public void SaveDestination(Destination dest, int? clientId)
+		public void SaveDestination(Destination dest)
 		{
 			try
 			{
@@ -205,7 +205,7 @@ namespace DiagoDICOM.Data
 				}
 			}
 		}
-		public Clients GetClientById(int? clientId)
+		public Clients GetClientById(string clientId)
 		{
 
 			using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
@@ -284,7 +284,7 @@ namespace DiagoDICOM.Data
 			}
 		}
 
-		public List<Clients> GetClientRules(int clientId)
+		public List<Clients> GetClientRules(string clientId)
 		{
 			try
 			{
@@ -304,7 +304,7 @@ namespace DiagoDICOM.Data
 			}
 
 		}
-		public void DeleteClient(int clientId)
+		public void DeleteClient(string clientId)
 		{
 			try
 			{
@@ -388,7 +388,7 @@ namespace DiagoDICOM.Data
 			
 		}
 
-		public List<CaseStudies> GetStudyStatus(string studyId, int clientId)
+		public List<CaseStudies> GetStudyStatus(string studyId, string clientId)
 		{
 				using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
 				{
@@ -536,7 +536,7 @@ namespace DiagoDICOM.Data
 			}
 		}
 
-		public int UpdateDestinationAppStatus(string xml, int destinationId)
+		public int UpdateDestinationAppStatus(string xml, string destinationId)
 		{
 
 			using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
@@ -562,7 +562,7 @@ namespace DiagoDICOM.Data
 				}
 			}
 		}
-			public int UpdateClientAppStatus(int clientId)
+			public int UpdateClientAppStatus(string clientId)
 			{
 
 				using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))

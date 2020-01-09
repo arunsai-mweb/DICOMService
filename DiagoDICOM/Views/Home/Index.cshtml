@@ -14,9 +14,16 @@
 
 	$(document).ready(function () {
 		$('.datepicker').daterangepicker({
-			autoUpdateInput: false,
+			"timePicker": true,
+			ranges: {
+				'Today': [moment(), moment()],
+				'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+				'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+				'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+				'This Month': [moment().startOf('month'), moment().endOf('month')],
+				'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+			},
 			linkedCalendars: false,
-			"locale": { cancelLabel: 'Clear' }
 		});
 		$('.datepicker').on('apply.daterangepicker', function (ev, picker) {
 			var start = picker.startDate;
@@ -50,8 +57,8 @@
 			$(this).val('');
 			table.draw();
 		});
-		$('.multilinks > li > a').removeClass('active');
-		$('.multilinks > li > a.tab3').addClass('active');
+		$('a').removeClass('active');
+		$('a.tab4').addClass('active');
 
 		function formatCases(d, clientId) {
 			var table = '<table id="tblStatus" class="table table-striped" style="width:90%;margin-left:5%">'

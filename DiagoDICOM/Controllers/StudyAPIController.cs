@@ -39,7 +39,7 @@ namespace DiagoDICOM.Controllers
 			if (!String.IsNullOrEmpty(cs.ScanDate) && !String.IsNullOrEmpty(cs.ScanTime))
 				cs.ScanDate = Convert.ToString(DateTime.Parse(DateTime.ParseExact((cs.ScanDate + cs.ScanTime).Substring(0, 12), "yyyyMMddHHmm", null).ToString("yyyy-MM-dd hh:mm tt")).ToString("yyyy-MM-dd hh:mm:ss"));
 			var modal = da.SaveImageStudy(cs);
-			if (modal.DestinationId != 0)
+			if (!string.IsNullOrEmpty(modal.DestinationId))
 			{
 				return StatusCode((int)HttpStatusCode.OK, JsonConvert.SerializeObject(modal));
 			}
@@ -55,9 +55,8 @@ namespace DiagoDICOM.Controllers
 		{
 			var sopInstanceUId = Request.Form["sopInstanceUID"].FirstOrDefault();
 			var status = Request.Form["status"].FirstOrDefault();
-			dynamic _model = new ExpandoObject();
-			_model = da.UpdateStatus(sopInstanceUId, status);
-			if (_model.DestinationId != 0)
+			var _model = da.UpdateStatus(sopInstanceUId, status);
+			if (!string.IsNullOrEmpty(_model.DestinationId))
 			{
 				return StatusCode((int)HttpStatusCode.OK, JsonConvert.SerializeObject(_model));
 			}
@@ -87,7 +86,7 @@ namespace DiagoDICOM.Controllers
 			{
 				doc = JsonConvert.DeserializeXmlNode(serverDetails, "Root");
 			}
-			int val = da.UpdateDestinationAppStatus(doc.InnerXml.ToString(),Convert.ToInt32(destinationId));
+			int val = da.UpdateDestinationAppStatus(doc.InnerXml.ToString(),destinationId);
 			if (val == -1)
 			{
 				return StatusCode((int)HttpStatusCode.BadRequest);
@@ -101,7 +100,7 @@ namespace DiagoDICOM.Controllers
 		public IActionResult UpdateClientAppStatus()
 		{
 			var clientId = Request.Form["clientId"].FirstOrDefault();
-			int val = da.UpdateClientAppStatus(Convert.ToInt32(clientId));
+			int val = da.UpdateClientAppStatus(clientId);
 			if (val == -1)
 			{
 				return StatusCode((int)HttpStatusCode.BadRequest);

@@ -24,8 +24,8 @@ namespace DiagoDICOM.Models
 
 	public class Destination
 	{
-		public int ClientId { get; set; }
-		public int? DestinationId { get; set; }
+		public string ClientId { get; set; }
+		public string DestinationId { get; set; }
 		public string DestinationName { get; set; }
 		public int? Port { get; set; }
 		public string IpAddress { get; set; }
@@ -46,8 +46,8 @@ namespace DiagoDICOM.Models
 
 	public class CaseStudies
 	{
-		public int ClientId { get; set; }
-		public int DestinationId { get; set; }
+		public string ClientId { get; set; }
+		public string DestinationId { get; set; }
 		public string StudyId { get; set; }
 		public string PatientName { get; set; }
 		public string PatientId { get; set; }
@@ -89,8 +89,8 @@ namespace DiagoDICOM.Models
 		public string LogLevel { get; set; }
 		public string StuydId { get; set; }
 		public int LogId { get; set; }
-		public int ClientId { get; set; }
-		public int DestinationId { get; set; }
+		public string ClientId { get; set; }
+		public string DestinationId { get; set; }
 		public string DestinationName { get; set; }
 		public string ClientName { get; set; }
 		public static void WriteToLogFile(string text)
@@ -232,7 +232,7 @@ namespace DiagoDICOM.Models
 		public const short GM = 48;
 
 
-		public static List<LookUpType> GetModalityShortNames(int clientId)
+		public static List<LookUpType> GetModalityShortNames(string clientId)
 		{
 			var list = new List<LookUpType>();
 

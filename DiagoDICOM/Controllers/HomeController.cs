@@ -29,7 +29,7 @@ namespace DiagoDICOM.Controllers
 		}
 
 		
-		public IActionResult Index(int? destinationId,int? clientId)
+		public IActionResult Index(string destinationId,string clientId)
 		{
 			ViewData["Destinations"] = da.GetDestinations().Select(i => new SelectListItem
 			{
@@ -61,7 +61,7 @@ namespace DiagoDICOM.Controllers
 
 		public IActionResult SaveDestination(Destination dest)
 		{
-			da.SaveDestination(dest,AppUser.UserId);
+			da.SaveDestination(dest);
 			return RedirectToAction("Destinations");
 		}
 
@@ -72,7 +72,7 @@ namespace DiagoDICOM.Controllers
 			return Json("Success");
 		}
 
-		public IActionResult Destinations(int? clientId = null,int? destinationId = null)
+		public IActionResult Destinations(string clientId = null,string destinationId = null)
 		{
 			    ViewBag.Clients = da.GetClients();
 				List<Destination> destData = da.GetDestinations();
@@ -97,7 +97,7 @@ namespace DiagoDICOM.Controllers
 			return View("Clients", lstClient);
 		}
 		
-		public IActionResult AddEditClient(int? clientId)
+		public IActionResult AddEditClient(string clientId)
 		{
 			Clients cld = new Clients();
 			ViewBag.Clients = da.GetClients();
@@ -119,7 +119,7 @@ namespace DiagoDICOM.Controllers
 			return RedirectToAction("Clients");
 		}
 
-		public IActionResult AddEditClientRule(int clientId,string clientName,int? clientRuleId)
+		public IActionResult AddEditClientRule(string clientId,string clientName,int? clientRuleId)
 		{
 			Clients client = new Clients();
 			client.ClientId = clientId;
@@ -137,7 +137,7 @@ namespace DiagoDICOM.Controllers
 			return PartialView("AddEditClientRules", client);
 		}
 
-		public JsonResult GetClientRules(int clientId)
+		public JsonResult GetClientRules(string clientId)
 		{
 			return Json(da.GetClientRules(clientId));
 		}
@@ -148,7 +148,7 @@ namespace DiagoDICOM.Controllers
 			return RedirectToAction("Clients");
 		}
 
-		public JsonResult DeleteClient(int clientId)
+		public JsonResult DeleteClient(string clientId)
 		{
 			da.DeleteClient(clientId);
 			return Json("Success");
@@ -159,7 +159,7 @@ namespace DiagoDICOM.Controllers
 			return Json("Success");
 		}
 
-		public JsonResult GetStudyStatus(string studyId,int clientId)
+		public JsonResult GetStudyStatus(string studyId,string clientId)
 		{
 			return Json(da.GetStudyStatus(studyId,clientId));
 		}
@@ -285,6 +285,11 @@ namespace DiagoDICOM.Controllers
 			{
 				return Json(ex == null ? "" : ex.ToString());
 			}
+		}
+
+		public IActionResult Home()
+		{
+			return View("Home");
 		}
 	}
 }

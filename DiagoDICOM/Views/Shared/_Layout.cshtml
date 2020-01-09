@@ -31,10 +31,16 @@
 		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<a class="navbar-brand" href="#">
-			<img src="" width="30" height="30" class="d-inline-block align-top" alt="">
-			<span class="menu-collapsed" style="font-size:22px;font-weight:600">DICOM SERVICE</span>
+		<a class="navbar-brand nav-anch ulTabs" style="font-size:25px" asp-action="Home" asp-controller="Home">
+			<i class="fa fa-home" title="home"></i>
 		</a>
+		<a asp-action="Home" asp-controller="Home" title="Main Menu" aria-expanded="false" class="navbar-brand nav-anch"><span class="menu-collapsed">DICOM SERVICE</span></a>
+		<div align="right" style="margin-left:800px">
+		<a asp-action="Clients" asp-controller="Home" aria-expanded="false" class="navbar-brand ulTabs nav-menu tab2"><i class="fa fa-users" style="margin-right:10px"></i>Clients</a>
+		<a asp-action="Destinations" asp-controller="Home" aria-expanded="false" class="navbar-brand nav-menu ulTabs tab3"><i class="fa fa-map-marker" style="margin-right:10px"></i>Destinations</a>
+		<a asp-action="Index" asp-controller="Home" aria-expanded="false" class="navbar-brand ulTabs nav-menu tab4"><i class="fa fa-plus-square" style="margin-right:10px"></i>Cases</a>
+		<a asp-action="GetLogs" asp-controller="Home" aria-expanded="false" class="navbar-brand ulTabs nav-menu tab5"><i class="fa fa-history" style="margin-right:10px"></i>Logs</a>
+        </div>
 		<div class="collapse navbar-collapse" id="navbarNavDropdown">
 			<ul class="navbar-nav ml-auto ulLogIn">
 				<li class="nav-item dropdown dropdown-user open">
@@ -59,22 +65,18 @@
 			</ul>
 		</div>
 	</nav>
-		<div class="col-xs-12 col-lg-12 col-sm-12 col-md-12">
-			<ul class="nav multilinks nav-tabs nav-justified ulTabs" style="margin-top:10px">
+		@*<div class="col-xs-12 col-lg-12 col-sm-12 col-md-12">
+			<ul class="nav multilinks nav-tabs nav-justified ulTabs" style="margin-top:10px">				
 				<li class="nav-item">
-					<a asp-action="Clients" asp-controller="Home" aria-expanded="false" class="nav-link tab1"><i class="fa fa-users" style="margin-right:10px"></i>Clients</a>
 				</li>
 				<li class="nav-item">
-					<a asp-action="Destinations" asp-controller="Home" aria-expanded="false" class="nav-link tab2"><i class="fa fa-map-marker" style="margin-right:10px"></i>Destinations</a>
 				</li>
 				<li class="nav-item">
-					<a asp-action="Index" asp-controller="Home" aria-expanded="false" class="nav-link active tab3"><i class="fa fa-plus-square" style="margin-right:10px"></i>Cases</a>
 				</li>
 				<li class="nav-item">
-					<a asp-action="GetLogs" asp-controller="Home" aria-expanded="false" class="nav-link tab4"><i class="fa fa-history" style="margin-right:10px"></i>Logs</a>
 				</li>
 			</ul>
-		</div>
+		</div>*@
 	<div class="row" id="body-row">
 		<div class="col py-3">
 			@RenderBody()
