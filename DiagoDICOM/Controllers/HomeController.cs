@@ -101,6 +101,7 @@ namespace DiagoDICOM.Controllers
 		{
 			Clients cld = new Clients();
 			ViewBag.Clients = da.GetClients();
+			ViewBag.Destinations = da.GetDestinations();
 			ViewData["Destinations"] = da.GetDestinations().Select(i => new SelectListItem
 			{
 				Text = i.DestinationName,
@@ -198,22 +199,13 @@ namespace DiagoDICOM.Controllers
 		public IActionResult Download(string app)
 		{
 			ViewBag.App = app;
-			if (app == "Client")
-			{
-				ViewData["Clients"] = da.GetClients().Select(i => new SelectListItem
-				{
-					Text = i.ClientId.ToString(),
-					Value = i.ClientId.ToString()
-				}).ToList();
-			}
-			else
-			{
+			ViewBag.Clients = da.GetClients();
+			
 				ViewData["Destinations"] = da.GetDestinations().Select(i => new SelectListItem
 				{
 					Text = i.DestinationId.ToString(),
 					Value = i.DestinationId.ToString()
 				}).ToList();
-			}
 			return PartialView("Download");
 		}
 
@@ -290,6 +282,11 @@ namespace DiagoDICOM.Controllers
 		public IActionResult Home()
 		{
 			return View("Home");
+		}
+
+		public IActionResult LogsData()
+		{
+			return Json(da.GetLogs());
 		}
 	}
 }

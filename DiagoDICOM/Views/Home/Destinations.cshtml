@@ -33,11 +33,6 @@
 			async: false,
 			data: { "id": $(e).attr("data-Id") },
 			success: function () {
-				$.notify({
-					message: "Deleted Successfully"
-				    }, {
-						type:"danger"
-					});
 				$(e).closest('tr').remove();
 			}
 		})

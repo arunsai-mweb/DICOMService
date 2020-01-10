@@ -2,8 +2,8 @@
 @model DiagoDICOM.Models.Destination
 @{
 	var app = ViewBag.App;
+	Layout = null;
 }
-
 
 <form method="post" id="frmDownload">
 	<div class="form-group row">
@@ -11,14 +11,14 @@
 		{
 			<label asp-for="ClientId" class="control-label col-sm-3">Client Id:</label>
 			<div class="col-sm-6">
-				@Html.DropDownList("ClientId", ViewData["Clients"] as IEnumerable<SelectListItem>, "Select", new { @class = "form-control", @style = "width:200px" })
+				@Html.TextBox("ClientId", "", new { @class = "form-control", @style = "width:200px" })
 			</div>
 		}
 		else
 		{
 			<label asp-for="DestinationId" class="control-label col-sm-4">Destinaton Id:</label>
 			<div class="col-sm-8">
-				@Html.DropDownList("DestinationId", ViewData["Destinations"] as IEnumerable<SelectListItem>, "Select", new { @class = "form-control", @style = "width:200px" })
+				@Html.TextBox("DestinationId", "", new { @class = "form-control", @style = "width:200px" })
 			</div>
 		}
 	</div>
@@ -28,8 +28,14 @@
 </form>
 
 <script>
-
+	var cData = {};
+	var dData = {};
 	$(function () {
+
+		cData = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Clients))');
+	
+			dData = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["Destinations"]))');
+
 		if ('@app' == "Destination") {
 			$('#frmDownload').attr("action", "/Home/DownLoadDestinationApp")
 		}
@@ -53,6 +59,31 @@
 		})
 
 		$('#btnDownload').click(function (e) {
+
+			var hasMatch = true;
+			for (var index = 0; index < cData.length; ++index) {
+				var client = cData[index];
+				if (client.ClientId == $('#ClientId').val()) {
+					hasMatch = false;
+					break;
+				}
+			}
+
+			if ('@app' == "Destination") {
+
+				for (var index = 0; index < dData.length; ++index) {
+					var d = dData[index];
+					if (d.Text == $('#DestinationId').val()) {
+						hasMatch = false;
+						break;
+					}
+				}
+			}
+
+			if (hasMatch) {
+				alert('@app ' + "Id Is InValid");
+				return false;
+			}
 			if (validator.checkForm()) {
 				$('#frmDownload').submit();
 				$('.close').click();
@@ -61,5 +92,5 @@
 	})
 
 
-	
+
 </script>

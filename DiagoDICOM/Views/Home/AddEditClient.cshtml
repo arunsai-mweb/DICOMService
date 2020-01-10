@@ -49,9 +49,11 @@
 @Html.HiddenFor(x => x.ClientId, new { @class = "hdnClientId" })
 <script>
 	var data = {};
+	var destData = {};
 	$(function () {
 
 		data = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Clients))');
+		destData = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Destinations))');
 		if ('@Model.ClientId' == 0) {
 			$('#ClientId').val('');
 		}
@@ -93,14 +95,22 @@
 		var hasMatch = false;
 		for (var index = 0; index < data.length; ++index) {
 			var client = data[index];
-			console.log(client);
-			if (client.ClientId == parseInt($('#ClientId').val())) {
+			if (client.ClientId == $('#ClientId').val()) {
 				hasMatch = true;
 				break;
 			}
 		}
+
+		for (var index = 0; index < destData.length; ++index) {
+			var d = destData[index];
+			if (d.DestinationId == $('#ClientId').val()) {
+				hasMatch = true;
+				break;
+			}
+		}
+
 		if (hasMatch && mode == "Add") {
-			alert("ClientId already Exists");
+			alert("ClientId should be unique accross DestinationId and ClientId");
 			return false;
 		}
 		if (validator.valid()) {

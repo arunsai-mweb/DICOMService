@@ -103,7 +103,7 @@
 		clients = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Clients))');
 		dest = JSON.parse('@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Destinations))');
 
-
+	
 		if ('@Model.IsPushToFolder' == 'False') {
 			$('#dvPushToFolder').hide();
 			$('.dvPTAI').show();
@@ -119,6 +119,7 @@
 		}
 		
 	})
+
 
 	var validator = $("#frmAddEditDestination").validate({
 		errorClass: "errors",
