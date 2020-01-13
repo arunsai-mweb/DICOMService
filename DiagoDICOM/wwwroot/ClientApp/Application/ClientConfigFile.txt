@@ -3,5 +3,10 @@
   "AppDirectory":"D:/ClientApplication/",
   "APIURL":"https://localhost:44353/api/StudyApi",
   "DeleteLogs":1,
-  "DeleteFiles":1
+  "DeleteFiles":1,
+  "Replace":[{
+                  "SourceTag":"00320500",
+                  "DestinationTag":"00120012",
+                  "DestinationValue" : "Item"
+            }]
 }

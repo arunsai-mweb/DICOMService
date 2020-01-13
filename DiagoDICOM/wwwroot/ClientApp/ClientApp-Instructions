@@ -3,7 +3,7 @@ Instructions for the installation of DICOM Client Application
 1. Extract the files 
 
 2. Open command prompt in admin mode and create a new Folder with any name using following command
-          mkdir D:\FolderName
+         cd mkdir D:\FolderName
        
 3. Copy all the extracted folder contents into the newly created folder 		
 		
@@ -11,12 +11,21 @@ Instructions for the installation of DICOM Client Application
 
    -> Set the Configurations that are required to run the service
    
-	    1) ClientId     --   Will generate automatically no need to change		
-		2) FolderPath   --   The path that the files are saved i.e; "D:/FolderName/" 
-		3) APIURL       --   Url to the web app should be specified here ex: "https://dicomservice/api/studyapi"
-		4) DeleteLogs   --   Specify number of days for deleting the log files ex: 2
-        5) DeleteFiles  --   Specify number of days for deleting DICOM files ex: 5	
-
+	    1) ClientId        --   Will generate automatically no need to change		
+		2) AppDirectory    --   The path that the files are saved i.e; "D:/FolderName/" 
+		3) APIURL          --   Url to the web app should be specified here ex: "https://dicomservice/api/studyapi"
+		4) DeleteLogs      --   Specify number of days for deleting the log files ex: 2
+        5) DeleteFiles     --   Specify number of days for deleting DICOM files ex: 5	
+        6) Replace         --   Give the Tags and The Values as mentioned for replacing the DICOM Tags
+		                        EX:\ "Replace" : [{
+								                    "SourceTag":"TagKey",
+													"DestinationTag":"TagKey",
+													"DestinationValue":"Value"
+								                 },
+												 {
+												   Same as Above and So on.....
+												 }]
+		
 5. Install ClientApp Listener 
 
     ============================================= 
@@ -38,14 +47,14 @@ Instructions for the installation of DICOM Client Application
 
     cd D:\FolderName\NSSM\win32
 
-    nssm install ClientListener
+    nssm install ClientListener 
 
     We will see one pop. 
     Click Browse button -> Select D:\FolderName\Application\storescp.exe and click OK
 
     Paste the below arguments in the arguments textbox 
 
-    -v -aet ClientListener 109 -od "D:\FolderName\InComing" 
+    -v -aet ClientListener 109 -od D:\FolderName\InComing 
 
     Now click on InstallService
    
