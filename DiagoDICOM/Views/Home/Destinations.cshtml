@@ -27,15 +27,20 @@
 
 	});
 	function Delete(e) {
-		$.ajax({
-			type: "POST",
-			url: "@Url.Action("DeleteDestination","Home")",
-			async: false,
-			data: { "id": $(e).attr("data-Id") },
-			success: function () {
-				$(e).closest('tr').remove();
-			}
-		})
+		if (confirm("Are you sure to delete the destination?")) {
+			$.ajax({
+				type: "POST",
+				url: "@Url.Action("DeleteDestination","Home")",
+				async: false,
+				data: { "id": $(e).attr("data-Id") },
+				success: function () {
+					$(e).closest('tr').remove();
+				}
+			})
+		}
+		else {
+			return false;
+		}
 	}
 
 	var dataTable = $('#tblCases').dataTable();

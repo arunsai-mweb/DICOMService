@@ -10,6 +10,9 @@ using DiagoDICOM.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.Web;
+using Microsoft.Extensions.Configuration;
+using System.Net.Mail;
+using System.Net;
 
 namespace DiagoDICOM.Controllers
 {
@@ -17,10 +20,12 @@ namespace DiagoDICOM.Controllers
 	public class AccountController : Controller
 	{
 		DataAccess da = new DataAccess();
+		IConfiguration _config;
 		private IHttpContextAccessor _httpContextAccessor;
-		public AccountController(IHttpContextAccessor httpContextAccessor)
+		public AccountController(IHttpContextAccessor httpContextAccessor, IConfiguration config)
 		{
 			_httpContextAccessor = httpContextAccessor;
+			_config = config;
 		}
 
 	    public IActionResult LogIn()
@@ -70,9 +75,10 @@ namespace DiagoDICOM.Controllers
 					}
 					else
 					{
-						message = "Password has been changed successfully.Please click <a href=" + AppUser.AppUrl + "/Account/LogIn" + ">here</a> to LogIn";
-						ViewBag.Message = message;
-						return View("Message");
+					   
+					    	message = "Password has been changed successfully.Please click <a href=" + AppUser.AppUrl + "/Account/LogIn" + ">here</a> to LogIn";
+					    	ViewBag.Message = message;
+					    	return View("Message");
 					}
 				}
 				else if (user.IsForgotPassword)
@@ -84,15 +90,18 @@ namespace DiagoDICOM.Controllers
 					{
 						ViewBag.IsForgotPassword = true;
 					}
-						message = "Invalid User or Password";
+						message = "Invalid User";
 						ViewBag.Message = message;
 						return View();
 					}
 					else
 					{
+					//if (MailSend(userData))
+					//{
 						message = "Password has been resetted successfully.Please click <a href=" + AppUser.AppUrl + "/Account/LogIn" + ">here</a> to LogIn";
 						ViewBag.Message = message;
 						return View("Message");
+					//}
 					}
 				}
 
@@ -131,5 +140,47 @@ namespace DiagoDICOM.Controllers
 			context.Session.SetString("ForgotPassword","true");
 			return View("LogOn");
 		}
+
+		//public bool MailSend(Users user)
+		//{
+		//	try
+		//	{
+		//		string body = string.Empty;
+		//		string FromMail = _config["ApplicationSettings:FromEmail"];
+		//		MailMessage msg = new MailMessage();
+		//		msg.From = new MailAddress(FromMail);
+		//		msg.To.Add(user.EmailId);
+		//		msg.Subject = "Request For Forgot Password";
+		//		msg.IsBodyHtml = true;
+
+		//		if (user != null)
+		//		{
+		//			body = "Hi " + user.UserName + ", < br />" +
+		//					"Your account password has been changed as per your request. The password is <b>" + user.Password + "</b>";
+		//			msg.Body = body;
+		//		}
+		//		else
+		//		{
+		//			body = "";
+		//			msg.Body = body;
+
+		//		}
+
+		//		var client = new SmtpClient()
+		//		{
+		//			Port = 587,
+		//			DeliveryMethod = SmtpDeliveryMethod.Network,
+		//			Host = _config["ApplicationSettings:SMTPServer"],
+		//			EnableSsl = Convert.ToBoolean(_config["ApplicationSettings:SMTPUseSsl"]),
+		//			Credentials = new NetworkCredential("autoqamail@gmail.com", "Welcome1!")
+		//		};
+		//		client.Send(msg);
+		//		return true;
+		//	}
+		//	catch (Exception e)
+		//	{
+		//		return false;
+		//	}
+		//}
 	}
 }

@@ -120,14 +120,19 @@
 	}
 
 	function DeleteRule(e) {
-		$(e).closest('tr').remove();
-		$.get(baseUrl + "Home/DeleteClientRule", { clientRuleId: parseInt($(e).data('clientruleid')) }, function (html) {
-			$.notify({
-				message: "Deleted Successfully"
-			}, {
-					type: "danger"
-				});
-		});
+		if (confirm("Are you sure to delete the client rule?")) {
+			$(e).closest('tr').remove();
+			$.get(baseUrl + "Home/DeleteClientRule", { clientRuleId: parseInt($(e).data('clientruleid')) }, function (html) {
+				$.notify({
+					message: "Deleted Successfully"
+				}, {
+						type: "danger"
+					});
+			});
+		}
+		else {
+			return false;
+		}
 	}
 
 	function Add(e) {
@@ -150,17 +155,22 @@
 
 
 	function Delete(e) {
-		var table = $('#tblClients').DataTable();
-		var row = table.row($(e).closest('tr'));
-		row.child().remove();
-		$(e).closest('tr').remove();
-		$.post('@Url.Action("DeleteClient","Home")', { clientId: $(e).data('clientid') }, function(){
-			$.notify({
-				message: "Deleted Successfully"
-			}, {
-					type: "danger"
-				});
-		})
+		if (confirm("Are you sure to delete the client?")) {
+			var table = $('#tblClients').DataTable();
+			var row = table.row($(e).closest('tr'));
+			row.child().remove();
+			$(e).closest('tr').remove();
+			$.post('@Url.Action("DeleteClient","Home")', { clientId: $(e).data('clientid') }, function () {
+				$.notify({
+					message: "Deleted Successfully"
+				}, {
+						type: "danger"
+					});
+			})
+		}
+		else {
+			return false;
+		}
 	}
 </script>
 
