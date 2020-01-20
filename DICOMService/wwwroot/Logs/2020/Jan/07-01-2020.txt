@@ -1,0 +1,76 @@
+07-01-2020 15:47:31 : System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1158
+   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1214
+   at Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 741
+   at DiagoDICOM.Data.DataAccess.CheckIsExistingUser(Users user) in D:\DiagoDICOM\DiagoDICOM\Data\DataAccess.cs:line 30
+07-01-2020 15:49:15 : System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1158
+   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1214
+   at Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 741
+   at DiagoDICOM.Data.DataAccess.CheckIsExistingUser(Users user) in D:\DiagoDICOM\DiagoDICOM\Data\DataAccess.cs:line 30
+07-01-2020 15:51:21 : System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1158
+   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1214
+   at Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 741
+   at DiagoDICOM.Data.DataAccess.CheckIsExistingUser(Users user) in D:\DiagoDICOM\DiagoDICOM\Data\DataAccess.cs:line 30
+07-01-2020 15:58:43 : System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1158
+   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1214
+   at Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 741
+   at DiagoDICOM.Data.DataAccess.CheckIsExistingUser(Users user) in D:\DiagoDICOM\DiagoDICOM\Data\DataAccess.cs:line 30
+07-01-2020 15:59:07 : System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1158
+   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1214
+   at Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 741
+   at DiagoDICOM.Data.DataAccess.CheckIsExistingUser(Users user) in D:\DiagoDICOM\DiagoDICOM\Data\DataAccess.cs:line 30
+07-01-2020 16:00:19 : System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1158
+   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1214
+   at Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 741
+   at DiagoDICOM.Data.DataAccess.CheckIsExistingUser(Users user) in D:\DiagoDICOM\DiagoDICOM\Data\DataAccess.cs:line 30
+07-01-2020 16:01:58 : System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1158
+   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1214
+   at Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 741
+   at DiagoDICOM.Data.DataAccess.CheckIsExistingUser(Users user)
+07-01-2020 16:02:26 : System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1158
+   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1214
+   at Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 741
+   at DiagoDICOM.Data.DataAccess.CheckIsExistingUser(Users user)
+07-01-2020 16:03:12 : System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1158
+   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1214
+   at Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 741
+   at DiagoDICOM.Data.DataAccess.CheckIsExistingUser(Users user)
+07-01-2020 16:10:15 : System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1158
+   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1214
+   at Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 741
+   at DiagoDICOM.Data.DataAccess.CheckIsExistingUser(Users user) in D:\DiagoDICOM\DiagoDICOM\Data\DataAccess.cs:line 31
+07-01-2020 19:31:35 : D:\DiagoDICOM\DiagoDICOM\wwwroot\ZIP
+07-01-2020 19:31:38 : D:\DiagoDICOM\DiagoDICOM\wwwroot\ZIP\DestinationApp.zip
+07-01-2020 19:34:51 : D:\DiagoDICOM\DiagoDICOM\wwwroot\ZIP
+07-01-2020 19:34:54 : D:\DiagoDICOM\DiagoDICOM\wwwroot\ZIP\DestinationApp.zip
+07-01-2020 19:35:25 : D:\DiagoDICOM\DiagoDICOM\wwwroot\ZIP
+07-01-2020 19:35:32 : D:\DiagoDICOM\DiagoDICOM\wwwroot\ZIP\DestinationApp.zip
+07-01-2020 19:38:11 : System.InvalidOperationException: Sequence contains no elements
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.ThrowZeroRows(Row row) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1158
+   at Dapper.SqlMapper.QueryRowImpl[T](IDbConnection cnn, Row row, CommandDefinition& command, Type effectiveType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 1214
+   at Dapper.SqlMapper.QueryFirst[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) in C:\projects\dapper\Dapper\SqlMapper.cs:line 741
+   at DiagoDICOM.Data.DataAccess.CheckIsExistingUser(Users user) in D:\DiagoDICOM\DiagoDICOM\Data\DataAccess.cs:line 31
+07-01-2020 19:38:36 : D:\DiagoDICOM\DiagoDICOM\wwwroot\ZIP
+07-01-2020 19:38:38 : D:\DiagoDICOM\DiagoDICOM\wwwroot\ZIP\DestinationApp.zip
+07-01-2020 20:05:46 : D:\DiagoDICOM\DiagoDICOM\wwwroot\ZIP
+07-01-2020 20:05:48 : D:\DiagoDICOM\DiagoDICOM\wwwroot\ZIP\DestinationApp.zip

@@ -1,2 +1,0 @@
-20-12-2019 11:28:58 : Input string was not in a correct format.
-20-12-2019 11:29:34 : Input string was not in a correct format.

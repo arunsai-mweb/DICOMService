@@ -1,0 +1,86 @@
+﻿@using DICOMService.Common;
+@using DICOMService.Models;
+@model IEnumerable<CaseStudies>
+@{
+	ViewData["Title"] = "Status";
+}
+<script src="~/js/Dialogs.js"></script>
+<style>
+	.modal-content {
+		width: 660px;
+	}
+</style>
+<script>
+	$(document).ready(function () {
+
+		$('#tblStatus').DataTable({
+			//"bSearchable":false,
+			"bSort": false,
+			"bLengthChange": false,
+			language: {
+				search: "_INPUT_",
+				searchPlaceholder: "Search..."
+			}
+		});
+
+		var dataTable = $('#tblStatus').dataTable();
+		$("#searchbox").keyup(function () {
+			dataTable.fnFilter(this.value);
+		});
+	});
+	var getUrl = window.location;
+	var baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
+
+	
+</script>
+
+
+<style>
+	.dataTables_filter {
+		display: none;
+	}
+
+	table.dataTable thead th, table.dataTable tbody td {
+		padding: 4px 8px; /* e.g. change 8x to 4px here */
+	}
+</style>
+<div align="right">
+	<h4 class="pull-left"> Study Image Details </h4><a asp-action="Index" class="btn btn-primary">Back</a>
+</div>
+<hr />
+
+<div>
+	<input type="text" class="form-control" style="width:20%;height:10%" placeholder="Search" id="searchbox">
+</div>
+
+<table id="tblStatus" class="table table-bordered table-striped" style="width:100%">
+	<thead>
+		<tr>
+			<th>Image Id</th>
+			<th>Date</th>
+			<th>Client Status</th>
+			<th>Destination Status</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model.Count() > 0)
+		{
+			foreach (var item in Model)
+			{
+				<tr>
+					<td>@item.SOPInstanceUID</td>
+					<td>@item.CreatedOn</td>
+					<td>@item.ClientStatus</td>
+					<td>@(item.DestinationStatus == null ? "" : item.DestinationStatus)</td>
+					<td><button class="btn btn-info btn-sm" onclick="getLogs(this)" title="View Logs" data-instanceid="@item.SOPInstanceUID"><i class="fa fa-history"></i></button></td>
+				</tr>
+			}
+		}
+	</tbody>
+</table>
+
+
+
+
+
