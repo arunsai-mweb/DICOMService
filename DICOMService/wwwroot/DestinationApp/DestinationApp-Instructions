@@ -17,7 +17,9 @@ Instructions for the installation of DICOM Destination Application
 		4) DeleteLogs        --   Specify number of days for deleting the log files ex: 2
         5) DeleteFiles       --   Specify number of days for deleting DICOM files ex: 5	
 
-5. Install DestinationApp Listener 
+5. Install Visual C++ Redistributable runtime from folder D:\FolderName\Packages\VC_redist.x86
+
+6. Install DestinationApp Listener 
 
     ============================================= 
     Set Environment path:

@@ -136,7 +136,7 @@
 	}
 
 	function Add(e) {
-		$.get('@Url.Action("AddEditClient","Home")', { clientId: $('.hdnClientId').val() }, function (html) {
+		$.get('@Url.Action("AddEditClient","Home")', { id: parseInt($('.hdnId').val()) }, function (html) {
 			var div = $(html);
 			$.showDialog("Add Client", div, { backdrop: 'static' }, function () {
 			}, function () {
@@ -145,7 +145,7 @@
 	}
 
 	function Edit(e) {
-		$.get('@Url.Action("AddEditClient","Home")', { clientId: $(e).data('clientid') }, function (html) {
+		$.get('@Url.Action("AddEditClient","Home")', { id: parseInt($(e).data('id')) }, function (html) {
 			var div = $(html);
 			$.showDialog("Edit Client", div, { backdrop: 'static' }, function () {
 			}, function () {
@@ -227,7 +227,7 @@
 							<td><div align="center"><button class="btn-round btn-danger" title="InActive"></button></div></td>
 						}
 						<td>
-							<button class="btn btn-info btn-sm" title="Edit" id="btnDelete" onclick="Edit(this)" data-clientId="@item.ClientId">
+							<button class="btn btn-info btn-sm" title="Edit" id="btnDelete" onclick="Edit(this)" data-Id="@item.Id">
 								<i class="fa fa-edit"></i>
 							</button>
 							<button class="btn btn-danger btn-sm" title="Delete" id="btnDelete" onclick="Delete(this)" data-clientId="@item.ClientId">

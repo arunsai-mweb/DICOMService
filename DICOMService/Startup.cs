@@ -27,7 +27,10 @@ namespace DICOMService
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllersWithViews();
-			
+			 services.Configure<IISServerOptions>(options =>
+             {
+               options.AllowSynchronousIO = true;
+              });
 			services.Configure<CookiePolicyOptions>(options =>
 			{
 				// This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -69,12 +72,12 @@ namespace DICOMService
             app.UseCookiePolicy();
             app.UseSession();
             app.UseRouting();
-
+            app.UseStaticFiles();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
+			    endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Account}/{action=LogIn}/{id?}");
             });

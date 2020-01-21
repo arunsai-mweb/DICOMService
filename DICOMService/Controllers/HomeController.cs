@@ -97,7 +97,7 @@ namespace DICOMService.Controllers
 			return View("Clients", lstClient);
 		}
 		
-		public IActionResult AddEditClient(string clientId)
+		public IActionResult AddEditClient(int? id)
 		{
 			Clients cld = new Clients();
 			ViewBag.Clients = da.GetClients();
@@ -107,9 +107,9 @@ namespace DICOMService.Controllers
 				Text = i.DestinationName,
 				Value = i.DestinationId.ToString()
 			}).ToList();
-			if (clientId != null)
+			if (id != null)
 			{
-				cld = da.GetClientById(clientId);
+				cld = da.GetClientById(id);
 			}
 			return PartialView("AddEditClient",cld);
 		}

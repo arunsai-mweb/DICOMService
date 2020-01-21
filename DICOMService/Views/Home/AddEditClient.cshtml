@@ -8,7 +8,7 @@
 	<div class="form-group row">
 		<label asp-for="ClientId" class="control-label col-sm-4">Client Id:</label>
 		<div class="col-sm-8">
-			<input type="text" name="ClientId" id="ClientId" value="" class="form-control" />
+			<input type="text" name="ClientId" id="ClientId" value="" class="form-control clId" />
 		</div>
 	</div>
 	<div class="form-group row">
@@ -45,8 +45,9 @@
 	<div class="form-group pull-right">
 		<input type="submit" value="Submit" id="btnSaveClient" class="btn btn-primary" />
 	</div>
+	@Html.HiddenFor(x => x.Id, new { @class = "hdnId" })
 </form>
-@Html.HiddenFor(x => x.ClientId, new { @class = "hdnClientId" })
+
 <script>
 	var data = {};
 	var destData = {};
@@ -60,9 +61,14 @@
 		else {
 			$('#ClientId').val('@Model.ClientId')
 		}
+
+		 $('.clId').on('change paste',function(){
+		    debugger;
+		    $('#DestinationId').val('');
+	    })
 	})
 	
-
+   
 	$('#btnSaveClient').click(function (e) {
 
 		var validator = $("#frmSaveClient").validate({

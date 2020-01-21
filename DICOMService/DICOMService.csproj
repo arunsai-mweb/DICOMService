@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,6 +11,25 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="wwwroot\ClientApp\Application\NSSM\**" />
+    <Compile Remove="wwwroot\DestinationApp\Application\NSSM\**" />
+    <Content Remove="wwwroot\ClientApp\Application\NSSM\**" />
+    <Content Remove="wwwroot\DestinationApp\Application\NSSM\**" />
+    <EmbeddedResource Remove="wwwroot\ClientApp\Application\NSSM\**" />
+    <EmbeddedResource Remove="wwwroot\DestinationApp\Application\NSSM\**" />
+    <None Remove="wwwroot\ClientApp\Application\NSSM\**" />
+    <None Remove="wwwroot\DestinationApp\Application\NSSM\**" />
+  </ItemGroup>
 
-
+  <ItemGroup>
+    <Folder Include="wwwroot\ClientApp\InComing\" />
+    <Folder Include="wwwroot\ClientApp\Logs\" />
+    <Folder Include="wwwroot\ClientApp\Processed\" />
+    <Folder Include="wwwroot\DestinationApp\InComing\" />
+    <Folder Include="wwwroot\DestinationApp\Logs\" />
+    <Folder Include="wwwroot\DestinationApp\Processed\" />
+    <Folder Include="wwwroot\ZIP\" />
+  </ItemGroup>
+  
 </Project>

@@ -96,12 +96,17 @@ namespace DICOMService.Controllers
 					}
 					else
 					{
-					//if (MailSend(userData))
-					//{
-						message = "Password has been resetted successfully.Please click <a href=" + AppUser.AppUrl + "/Account/LogIn" + ">here</a> to LogIn";
+					if (MailSend(userData))
+					{
+						message = "A request for the password change has been sent to your mail id.Please click <a href=" + AppUser.AppUrl + "/Account/LogIn" + ">here</a> to LogIn";
 						ViewBag.Message = message;
 						return View("Message");
-					//}
+					}
+					else
+					{
+                        ViewBag.Message = "InValid SMTP Credentials";
+						return View();
+					}
 					}
 				}
 
@@ -141,46 +146,48 @@ namespace DICOMService.Controllers
 			return View("LogOn");
 		}
 
-		//public bool MailSend(Users user)
-		//{
-		//	try
-		//	{
-		//		string body = string.Empty;
-		//		string FromMail = _config["ApplicationSettings:FromEmail"];
-		//		MailMessage msg = new MailMessage();
-		//		msg.From = new MailAddress(FromMail);
-		//		msg.To.Add(user.EmailId);
-		//		msg.Subject = "Request For Forgot Password";
-		//		msg.IsBodyHtml = true;
+		public bool MailSend(Users user)
+		{
+			try
+			{
+				string body = string.Empty;
+				string FromMail = _config["ApplicationSettings:FromEmail"];
+				string Password = _config["ApplicationSettings:Password"];
+				MailMessage msg = new MailMessage();
+				msg.From = new MailAddress(FromMail);
+				msg.To.Add(user.EmailId);
+				msg.Subject = "Request For Forgot Password";
+				msg.IsBodyHtml = true;
 
-		//		if (user != null)
-		//		{
-		//			body = "Hi " + user.UserName + ", < br />" +
-		//					"Your account password has been changed as per your request. The password is <b>" + user.Password + "</b>";
-		//			msg.Body = body;
-		//		}
-		//		else
-		//		{
-		//			body = "";
-		//			msg.Body = body;
+				if (user != null)
+				{
+					body = "Hi " + user.UserName + ", <br/>" +
+							"Your account password has been changed as per your request.The password is <b>" + user.Password + "</b>.";
+					msg.Body = body;
+				}
+				else
+				{
+					body = "";
+					msg.Body = body;
 
-		//		}
+				}
 
-		//		var client = new SmtpClient()
-		//		{
-		//			Port = 587,
-		//			DeliveryMethod = SmtpDeliveryMethod.Network,
-		//			Host = _config["ApplicationSettings:SMTPServer"],
-		//			EnableSsl = Convert.ToBoolean(_config["ApplicationSettings:SMTPUseSsl"]),
-		//			Credentials = new NetworkCredential("autoqamail@gmail.com", "Welcome1!")
-		//		};
-		//		client.Send(msg);
-		//		return true;
-		//	}
-		//	catch (Exception e)
-		//	{
-		//		return false;
-		//	}
-		//}
+				var client = new SmtpClient()
+				{
+					Port = 587,
+					DeliveryMethod = SmtpDeliveryMethod.Network,
+					Host = _config["ApplicationSettings:SMTPServer"],
+					EnableSsl = Convert.ToBoolean(_config["ApplicationSettings:SMTPUseSsl"]),
+					Credentials = new NetworkCredential( FromMail , Password )
+				};
+				client.Send(msg);
+				return true;
+			}
+			catch (Exception e)
+			{
+				Logs.WriteToLogFile(e.ToString());
+				return false;
+			}
+		}
 	}
 }

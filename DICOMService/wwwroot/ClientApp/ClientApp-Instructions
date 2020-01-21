@@ -25,8 +25,10 @@ Instructions for the installation of DICOM Client Application
 												 {
 												   Same as Above and So on.....
 												 }]
+												 
+5. Install Visual C++ Redistributable runtime from folder D:\FolderName\Packages\VC_redist.x86	   
 		
-5. Install ClientApp Listener 
+6. Install ClientApp Listener 
 
     ============================================= 
     Set Environment path:

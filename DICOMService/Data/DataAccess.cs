@@ -33,8 +33,7 @@ namespace DICOMService.Data
 				}
 			}
 			catch (Exception ex)
-			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
+			{				
 				return null;
 			}
 		}
@@ -205,7 +204,7 @@ namespace DICOMService.Data
 				}
 			}
 		}
-		public Clients GetClientById(string clientId)
+		public Clients GetClientById(int? id)
 		{
 
 			using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
@@ -215,7 +214,7 @@ namespace DICOMService.Data
 					connection.Open();
 					var parameters = new Dictionary<string, object>
 				{
-					{ "ClientId", clientId }
+					{ "Id", id }
 				};
 					var data = connection.QueryFirst<Clients>("GetClientById", parameters, commandType: CommandType.StoredProcedure);
 
@@ -246,7 +245,8 @@ namespace DICOMService.Data
 					{ "IpAddress",client.IpAddress },
 					{ "Port",client.Port},
 					{"AETitle",client.AETitle },
-					{ "DestinationId",client.DestinationId}
+					{ "DestinationId",client.DestinationId},
+					{"Id",client.Id}
 				};
 					connection.Query("AddEditClient", parameters, commandType: CommandType.StoredProcedure);
 
