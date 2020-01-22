@@ -15,7 +15,7 @@ namespace DICOMService.ActionFilters
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
 			var context = filterContext.HttpContext;
-			if (context.Session.GetString("UserId") == null)
+			if (string.IsNullOrEmpty(context.Session.GetString("UserId")))
 			{
 				filterContext.Result = new RedirectResult("~/Account/LogIn");
 			}

@@ -33,7 +33,8 @@ namespace DICOMService.Data
 				}
 			}
 			catch (Exception ex)
-			{				
+			{			
+				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 				return null;
 			}
 		}
@@ -50,7 +51,7 @@ namespace DICOMService.Data
 			}
 			catch (Exception ex)
 			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 				throw ex;
 			}
 		}
@@ -67,7 +68,7 @@ namespace DICOMService.Data
 			}
 			catch (Exception ex)
 			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 				throw ex;
 			}
 		}
@@ -87,7 +88,7 @@ namespace DICOMService.Data
 			}
 			catch (Exception ex)
 			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 				throw ex;
 			}
 		}
@@ -108,7 +109,7 @@ namespace DICOMService.Data
 			}
 			catch (Exception ex)
 			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 				throw ex;
 			}
 		}
@@ -138,7 +139,7 @@ namespace DICOMService.Data
 			}
 			catch (Exception ex)
 			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 				throw ex;
 			}
 		}
@@ -159,7 +160,7 @@ namespace DICOMService.Data
 			}
 			catch (Exception ex)
 			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 				return new Destination();
 			}
 		}
@@ -178,7 +179,7 @@ namespace DICOMService.Data
 			}
 			catch (Exception ex)
 			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 				throw ex;
 			}
 		}
@@ -195,7 +196,7 @@ namespace DICOMService.Data
 				}
 				catch (Exception ex)
 				{
-					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 					throw ex;
 				}
 				finally
@@ -222,7 +223,7 @@ namespace DICOMService.Data
 				}
 				catch (Exception ex)
 				{
-					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 					return null;
 				}
 				finally
@@ -254,7 +255,7 @@ namespace DICOMService.Data
 			}
 			catch (Exception ex)
 			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 				throw ex;
 			}
 		}
@@ -279,7 +280,7 @@ namespace DICOMService.Data
 			}
 			catch (Exception ex)
 			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 				throw ex;
 			}
 		}
@@ -299,7 +300,7 @@ namespace DICOMService.Data
 			}
 			catch (Exception ex)
 			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 				throw ex;
 			}
 
@@ -319,7 +320,7 @@ namespace DICOMService.Data
 			}
 			catch (Exception ex)
 			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 				throw ex;
 			}
 		}
@@ -339,7 +340,7 @@ namespace DICOMService.Data
 			}
 			catch (Exception ex)
 			{
-				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+				Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 				throw ex;
 			}
 		}
@@ -355,7 +356,7 @@ namespace DICOMService.Data
 				}
 				catch (Exception ex)
 				{
-					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 					throw ex;
 				}
 				finally
@@ -378,7 +379,7 @@ namespace DICOMService.Data
 				}
 				catch (Exception ex)
 				{
-					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 					throw ex;
 				}
 				finally {
@@ -405,7 +406,7 @@ namespace DICOMService.Data
 				}
 				catch (Exception ex)
 				{
-					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 					throw ex;
 				}
 				finally {
@@ -427,7 +428,7 @@ namespace DICOMService.Data
 				{
 					{ "PatientId", cs.PatientId },
 					{ "PatientName", cs.PatientName},
-					{ "ClientId",cs.ClientId},
+					{ "ClientId",cs.ClientId.ToString()},
 					{ "Gender",cs.Gender},
 					{ "Modality",cs.Modality},
 					{ "Age", cs.Age},
@@ -443,8 +444,8 @@ namespace DICOMService.Data
 				}
 				catch (Exception ex)
 				{
-					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
-					throw ex;
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
+					return new Destination();
 				}
 				finally {
 					connection.Close();
@@ -470,7 +471,7 @@ namespace DICOMService.Data
 				}
 				catch (Exception ex)
 				{
-					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 					throw ex;
 				}
 				finally {
@@ -498,8 +499,8 @@ namespace DICOMService.Data
 				}
 				catch (Exception ex)
 				{
-					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
-					throw ex;
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
+					return new Destination();
 				}
 				finally
 				{
@@ -525,7 +526,7 @@ namespace DICOMService.Data
 				}
 				catch (Exception ex)
 				{
-					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 					throw ex;
 				}
 				finally
@@ -536,7 +537,7 @@ namespace DICOMService.Data
 			}
 		}
 
-		public int UpdateDestinationAppStatus(string xml, string destinationId)
+		public int UpdateDestinationAppStatus(string xml, string destinationId,string appStatus)
 		{
 
 			using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
@@ -547,13 +548,14 @@ namespace DICOMService.Data
 					var parameters = new Dictionary<string, object>
 				{
 					{ "xmlData", xml },
-					{ "destinationId",destinationId}
+					{ "destinationId",destinationId},
+					{"appStatus",appStatus}
 				};
 					return connection.Query<int>("UpdateDestinationAppStatus", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
 				}
 				catch (Exception ex)
 				{
-					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 					throw ex;
 				}
 				finally
@@ -562,7 +564,7 @@ namespace DICOMService.Data
 				}
 			}
 		}
-			public int UpdateClientAppStatus(string clientId)
+			public int UpdateClientAppStatus(string clientId,string appStatus)
 			{
 
 				using (MySqlConnection connection = new MySqlConnection(AppUser.ConnectionString))
@@ -572,13 +574,14 @@ namespace DICOMService.Data
 						connection.Open();
 						var parameters = new Dictionary<string, object>
 				{
-					{ "clientId",clientId}
+					{ "ClientId",clientId},
+					{ "AppStatus",appStatus}
 				};
 						return connection.Query<int>("UpdateClientAppStatus", parameters, commandType: CommandType.StoredProcedure).FirstOrDefault();
 					}
 					catch (Exception ex)
 					{
-						Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+						Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 						throw ex;
 					}
 					finally
@@ -603,7 +606,7 @@ namespace DICOMService.Data
 				}
 				catch (Exception ex)
 				{
-					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException.ToString() == null ? ex.ToString() : ex.InnerException.Message);
+					Logs.WriteToLogFile(ex == null ? "No Exception Details" : ex.InnerException == null ? ex.ToString() : ex.InnerException.Message);
 					throw ex;
 				}
 				finally

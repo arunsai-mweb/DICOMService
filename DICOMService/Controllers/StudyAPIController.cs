@@ -81,12 +81,13 @@ namespace DICOMService.Controllers
 		{
 			var serverDetails = Request.Form["serverDetails"].FirstOrDefault();
 			XmlDocument doc = new XmlDocument();
-			var destinationId = Request.Form["destinationId"].FirstOrDefault();
+			var destinationId = Request.Form["destinationId"].FirstOrDefault();			
+			var appStatus = Request.Form["appStatus"].FirstOrDefault();
 			if (serverDetails != null)
 			{
 				doc = JsonConvert.DeserializeXmlNode(serverDetails, "Root");
 			}
-			int val = da.UpdateDestinationAppStatus(doc.InnerXml.ToString(),destinationId);
+			int val = da.UpdateDestinationAppStatus(doc.InnerXml.ToString(),destinationId,appStatus);
 			if (val == -1)
 			{
 				return StatusCode((int)HttpStatusCode.BadRequest);
@@ -100,7 +101,8 @@ namespace DICOMService.Controllers
 		public IActionResult UpdateClientAppStatus()
 		{
 			var clientId = Request.Form["clientId"].FirstOrDefault();
-			int val = da.UpdateClientAppStatus(clientId);
+			var appStatus = Request.Form["appStatus"].FirstOrDefault();
+			int val = da.UpdateClientAppStatus(clientId,appStatus);
 			if (val == -1)
 			{
 				return StatusCode((int)HttpStatusCode.BadRequest);

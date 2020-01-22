@@ -72,11 +72,10 @@ namespace DICOMService
             app.UseCookiePolicy();
             app.UseSession();
             app.UseRouting();
-            app.UseStaticFiles();
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+				endpoints.MapControllers();
 			    endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Account}/{action=LogIn}/{id?}");
