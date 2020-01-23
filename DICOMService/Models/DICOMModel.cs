@@ -99,7 +99,7 @@ namespace DICOMService.Models
 			if (!Directory.Exists(path))
 				Directory.CreateDirectory(path);
 
-			var filePath = Path.Combine(path, DateTime.Now.Date.ToString("dd/MM/yyyy")) + ".txt";
+			var filePath = Path.Combine(path, DateTime.Now.Date.ToString("MM-dd-yyyy")) + ".txt";
 
 			using (StreamWriter writer = File.AppendText(filePath))
 			{

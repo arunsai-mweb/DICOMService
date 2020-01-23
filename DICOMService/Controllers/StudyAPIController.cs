@@ -32,8 +32,8 @@ namespace DICOMService.Controllers
             return "value";
         }
 
-        [HttpPost]
-        public IActionResult Post([FromBody]CaseStudies cs)
+        [HttpPost("ImageStudy")]
+        public IActionResult ImageStudy([FromBody]CaseStudies cs)
         {
 
 			if (!String.IsNullOrEmpty(cs.ScanDate) && !String.IsNullOrEmpty(cs.ScanTime))
@@ -45,7 +45,6 @@ namespace DICOMService.Controllers
 			}
 			else
 			{
-				da.SaveLogDetails("INFO", DateTime.Now.ToString() + " DICOM Study Saved but no destination found for the modality or clientId may be wrong", cs.SOPInstanceUID);
 				return StatusCode((int)HttpStatusCode.BadRequest, JsonConvert.SerializeObject(modal));
 			}
 		}

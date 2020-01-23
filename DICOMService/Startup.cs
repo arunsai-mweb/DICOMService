@@ -37,7 +37,11 @@ namespace DICOMService
 				options.CheckConsentNeeded = context => true;
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			});
-
+            services.AddCors(O=>O.AddPolicy("MyPolicy",builder=>
+			                     {
+									 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+								 }));
+							 
 			services.AddSingleton<IHttpContextAccessor,HttpContextAccessor>();
 			int sessiontimeout = Convert.ToInt32(Configuration["ApplicationSettings:SessionTimeOutInMinutes"]);
 		    
@@ -72,7 +76,7 @@ namespace DICOMService
             app.UseCookiePolicy();
             app.UseSession();
             app.UseRouting();
-
+            app.UseCors("MyPolicy");			
             app.UseEndpoints(endpoints =>
             {
 				
